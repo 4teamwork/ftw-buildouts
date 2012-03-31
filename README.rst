@@ -13,9 +13,9 @@ package with jenkins.
 Features:
 
 - Provides a ``bin/test-jenkins`` executable which runs the test and some
-analysis tools on the content.
+  analysis tools on the content.
 - Detailed coverage report using `coverage`_ (optimized for use with the
-`Cobertura Jenkins Plugin`_).
+  `Cobertura Jenkins Plugin`_).
 - Pyflakes report (use jenkins `Warnings Plugin`_).
 - Pep8 report
 - Pylint report
@@ -44,7 +44,7 @@ developing a plone add-on package.
 Features:
 
 - bin/instance : A zope instance with plone, your package and development
-tools installed.
+  tools installed.
 - bin/test : A test runner, testing this package only.
 - bin/test-coverage : A test runner generating and open a coverage report.
 - bin/zopepy : A python shell with zope environment.
@@ -66,11 +66,11 @@ Buildout options
 
 - ``${buildout:package-name}`` -- The name of the package (mandatory).
 - ``${buildout:test-egg}`` -- Egg with extra included by test
-runners (defaults to ``${buildout:package-name} [tests]``).
+  runners (defaults to ``${buildout:package-name} [tests]``).
 - ``${buildout:package-directory}`` -- Option for changing the default
-namespace directory. This is used for packages wich have a different name than
-namespace. By default, for a package with name ``foo.bar`` the source is
-expected at ``foo/bar``, ``src/foo/bar`` or ``src/foo.bar/foo/bar``.
+  namespace directory. This is used for packages wich have a different name than
+  namespace. By default, for a package with name ``foo.bar`` the source is
+  expected at ``foo/bar``, ``src/foo/bar`` or ``src/foo.bar/foo/bar``.
 
 
 
