@@ -1,0 +1,26 @@
+[MESSAGES CONTROL]
+# Disable the message(s) with the given id(s).
+# C0111: Missing docstring -> erzwingen von docstring macht nicht immer sinn, z.b. fuer module oder fuer getter-methoden
+# R0904: Too many public methods
+# W0142: Used * or ** magic -> ** macht z.b. in __init__ durchaus sinn, wenn super gecallt wird und die attribute an dieser stelle nicht interessieren
+# E1002: Use super on an old style class -> check ist schlecht implementiert und kommt oft auch auf nicht old-style klassen..
+# R0201: Method could be a function -> z.B. in tests trifft das immer bei setUp() zu - das ist aber leider nicht immer unsere Entscheidung
+# R0922: Abstract class is only referenced 1 times
+# C0102: Black listed name "foo" -> foo is often used in tests
+# R0921: Abstract class not referenced
+# R0913: Too many arguments
+# R0902: Too many instance attributes
+# R0801: Similar lines in 2 files
+disable=E0611,F0401,W0232,E1101,C0103,R0903,W0613,I0011,C0111,R0904,W0142,E1002,R0201,R0922,C0102,R0921,R0913,R0902,R0801
+
+
+[REPORTS]
+# set the output format. Available formats are text, parseable, colorized and
+# html
+output-format=parseable
+include-ids=y
+
+[TYPECHECK]
+# When zope mode is activated, consider the acquired-members option to ignore
+# access to some undefined attributes.
+zope=y
