@@ -19,6 +19,8 @@ Features:
 - Pyflakes report (use jenkins `Warnings Plugin`_).
 - Pep8 report
 - Pylint report
+- A check-translations script, warning if not translatable strings were used
+  in templates and providing a translation statistic.
 
 **test-plone-X.cfg**: There are various base buildouts extending the
 **test-package.cfg** config and using known version sets of plone for pinning
