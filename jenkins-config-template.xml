@@ -8,21 +8,35 @@
         <artifactNumToKeep>-1</artifactNumToKeep>
     </logRotator>
     <keepDependencies>false</keepDependencies>
+
     <properties>
         <hudson.plugins.googlecode.GoogleCodeProjectProperty/>
+        {% if public %}
+        <hudson.security.AuthorizationMatrixProperty>
+            <permission>hudson.model.Item.Read:anonymous</permission>
+        </hudson.security.AuthorizationMatrixProperty>
+        {% endif %}
+
+
+        {% if github_url %}
+        <com.coravy.hudson.plugins.github.GithubProjectProperty>
+            <projectUrl>{{ github_url }}</projectUrl>
+        </com.coravy.hudson.plugins.github.GithubProjectProperty>
+        {% endif %}
     </properties>
+
     <scm class="hudson.plugins.git.GitSCM">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
             <hudson.plugins.git.UserRemoteConfig>
                 <name>origin</name>
                 <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-                <url>%(git_remote_url)s</url>
+                <url>{{remote_url}}</url>
             </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
         <branches>
             <hudson.plugins.git.BranchSpec>
-                <name>%(git_branch_spec)s</name>
+                <name>{{branch_spec}}</name>
             </hudson.plugins.git.BranchSpec>
         </branches>
         <disableSubmodules>false</disableSubmodules>
@@ -35,6 +49,11 @@
         <remotePoll>false</remotePoll>
         <buildChooser class="hudson.plugins.git.util.DefaultBuildChooser"/>
         <gitTool>Default</gitTool>
+        {% if github_url %}
+        <browser class="hudson.plugins.git.browser.GithubWeb">
+            <url>{{ github_url }}</url>
+        </browser>
+        {% endif %}
         <submoduleCfg class="list"/>
         <relativeTargetDir/>
         <reference/>
@@ -54,7 +73,7 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <hudson.tasks.Shell>
-            <command>enkins-run.py CONFIG.cfg</command>
+            <command>{{ command }}</command>
         </hudson.tasks.Shell>
     </builders>
     <publishers>
@@ -90,7 +109,7 @@
             <normal>TODO</normal>
             <low/>
             <ignoreCase>true</ignoreCase>
-            <pattern>%(source_path)s/**/*.py</pattern>
+            <pattern>{{source_path_prefix}}/**/*.py</pattern>
             <excludePattern/>
         </hudson.plugins.tasks.TasksPublisher>
         <hudson.plugins.warnings.WarningsPublisher>
@@ -130,6 +149,27 @@
         <hudson.plugins.chucknorris.CordellWalkerRecorder>
             <factGenerator/>
         </hudson.plugins.chucknorris.CordellWalkerRecorder>
+
+        {% if post_build_tasks %}
+        <hudson.plugins.postbuildtask.PostbuildTask>
+            <tasks>
+                {% for command in post_build_tasks %}
+                <hudson.plugins.postbuildtask.TaskProperties>
+                    <logTexts>
+                        <hudson.plugins.postbuildtask.LogProperties>
+                            <logText/>
+                            <operator>AND</operator>
+                        </hudson.plugins.postbuildtask.LogProperties>
+                    </logTexts>
+                    <EscalateStatus>false</EscalateStatus>
+                    <RunIfJobSuccessful>false</RunIfJobSuccessful>
+                    <script>{{ command }}</script>
+                </hudson.plugins.postbuildtask.TaskProperties>
+                {% endfor %}
+            </tasks>
+        </hudson.plugins.postbuildtask.PostbuildTask>
+        {% endif %}
+
         <htmlpublisher.HtmlPublisher>
             <reportTargets>
                 <htmlpublisher.HtmlPublisherTarget>
@@ -355,7 +395,11 @@
             <sourceEncoding>ASCII</sourceEncoding>
         </hudson.plugins.cobertura.CoberturaPublisher>
         <hudson.tasks.Mailer>
+            {% if recipients %}
+            <recipients>{{ recipients }}</recipients>
+            {% else %}
             <recipients/>
+            {% endif %}
             <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
             <sendToIndividuals>true</sendToIndividuals>
         </hudson.tasks.Mailer>
