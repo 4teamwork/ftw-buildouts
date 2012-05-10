@@ -69,7 +69,11 @@
     <disabled>false</disabled>
     <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
     <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-    <triggers class="vector"/>
+    <triggers class="vector">
+        <hudson.triggers.TimerTrigger>
+            <spec>0 1 * * *</spec>
+        </hudson.triggers.TimerTrigger>
+    </triggers>
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <hudson.tasks.Shell>
@@ -143,7 +147,7 @@
                 </hudson.plugins.warnings.ParserConfiguration>
             </parserConfigurations>
             <consoleLogParsers>
-                <string>pyflakes</string>
+                <string>Zope Error Log</string>
             </consoleLogParsers>
         </hudson.plugins.warnings.WarningsPublisher>
         <hudson.plugins.chucknorris.CordellWalkerRecorder>
@@ -371,6 +375,10 @@
             <healthyTarget>
                 <targets class="enum-map" enum-type="hudson.plugins.cobertura.targets.CoverageMetric">
                     <entry>
+                        <hudson.plugins.cobertura.targets.CoverageMetric>LINE</hudson.plugins.cobertura.targets.CoverageMetric>
+                        <int>70</int>
+                    </entry>
+                    <entry>
                         <hudson.plugins.cobertura.targets.CoverageMetric>METHOD</hudson.plugins.cobertura.targets.CoverageMetric>
                         <int>80</int>
                     </entry>
@@ -379,6 +387,10 @@
             <unhealthyTarget>
                 <targets class="enum-map" enum-type="hudson.plugins.cobertura.targets.CoverageMetric">
                     <entry>
+                        <hudson.plugins.cobertura.targets.CoverageMetric>LINE</hudson.plugins.cobertura.targets.CoverageMetric>
+                        <int>0</int>
+                    </entry>
+                    <entry>
                         <hudson.plugins.cobertura.targets.CoverageMetric>METHOD</hudson.plugins.cobertura.targets.CoverageMetric>
                         <int>0</int>
                     </entry>
@@ -386,6 +398,10 @@
             </unhealthyTarget>
             <failingTarget>
                 <targets class="enum-map" enum-type="hudson.plugins.cobertura.targets.CoverageMetric">
+                    <entry>
+                        <hudson.plugins.cobertura.targets.CoverageMetric>LINE</hudson.plugins.cobertura.targets.CoverageMetric>
+                        <int>0</int>
+                    </entry>
                     <entry>
                         <hudson.plugins.cobertura.targets.CoverageMetric>METHOD</hudson.plugins.cobertura.targets.CoverageMetric>
                         <int>0</int>
@@ -400,7 +416,7 @@
             {% else %}
             <recipients/>
             {% endif %}
-            <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
+            <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
             <sendToIndividuals>true</sendToIndividuals>
         </hudson.tasks.Mailer>
     </publishers>
