@@ -33,9 +33,6 @@ class Main(object):
         sys.exit(self.run_tests())
 
     def run_bootstrap(self):
-        if not os.path.isfile('bootstrap.py'):
-            error('bootstrap.py missing.')
-
         python_path = self.get_python_path()
         cmd = '%s bootstrap.py -c %s' % (python_path, self.configfile)
         runcmd(cmd) == 0 or error('Could not bootstrap.')
