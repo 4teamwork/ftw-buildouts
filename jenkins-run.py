@@ -41,7 +41,9 @@ class Main(object):
         if not os.path.isfile(os.path.join('bin', 'develop')):
             return
         cmd = 'bin/develop up'
-        runcmd(cmd) == 0 or error('bin/develop up failed.')
+        if runcmd(cmd) != 0:
+            print '%s failed, retry' % cmd
+            runcmd(cmd) == 0 or error('bin/develop up failed.')
 
     def run_buildout(self):
         cmd = 'bin/buildout -n -c %s' % self.configfile
