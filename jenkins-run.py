@@ -42,7 +42,8 @@ class Main(object):
             return
         cmd = 'bin/develop up'
         if runcmd(cmd) != 0:
-            print '%s failed, retry' % cmd
+            print '%s failed: removing sources and retrying' % cmd
+            runcmd('rm -rf src')
             runcmd(cmd) == 0 or error('bin/develop up failed.')
 
     def run_buildout(self):
