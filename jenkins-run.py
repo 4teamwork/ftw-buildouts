@@ -207,8 +207,10 @@ class HTTPRealmFinder:
 
 
 def runcmd(command):
+    """Execute a command and return the actual exit code.
+    """
     print '+ %s' % command
-    return os.system(command)
+    return os.system(command) >> 8
 
 
 def error(msg, exit=1):
