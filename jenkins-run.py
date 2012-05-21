@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python -u
 
 """This script is called by a jenkins job.
 The job of the script is to install the package (current directory)
