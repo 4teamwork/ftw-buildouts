@@ -1,4 +1,4 @@
-#!/usr/bin/env python -u
+#!/usr/bin/env python
 
 """This script is called by a jenkins job.
 The job of the script is to install the package (current directory)
@@ -210,6 +210,7 @@ def runcmd(command):
     """Execute a command and return the actual exit code.
     """
     print '+ %s' % command
+    sys.stdout.flush()
     return os.system(command) >> 8
 
 
