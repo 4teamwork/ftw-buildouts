@@ -10,7 +10,6 @@
     <keepDependencies>false</keepDependencies>
 
     <properties>
-        <hudson.plugins.googlecode.GoogleCodeProjectProperty/>
         {% if public %}
         <hudson.security.AuthorizationMatrixProperty>
             <permission>hudson.model.Item.Read:anonymous</permission>
