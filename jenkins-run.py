@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 """This script is called by a jenkins job.
 The job of the script is to install the package (current directory)
 with the passed buildout configuration file, update source dependencies
@@ -11,6 +12,7 @@ import ConfigParser
 import os
 import sys
 import tempfile
+import time
 import urllib2
 
 
@@ -23,28 +25,43 @@ class Main(object):
         self.configfile = args[0]
 
     def __call__(self):
+        self.symlink_buildout()
         if not os.path.isfile(os.path.join('bin', 'buildout')):
             self.run_bootstrap()
         self.pull_source_dependencies()
         self.run_buildout()
         sys.exit(self.run_tests())
 
+    def symlink_buildout(self):
+        if os.path.isfile('buildout.cfg'):
+            os.unlink('buildout.cfg')
+
+        runcmd('ln -s %s buildout.cfg' % self.configfile) == 0 or \
+            error('Symlinking failed.')
+
     def run_bootstrap(self):
         python_path = self.get_python_path()
-        cmd = '%s bootstrap.py -c %s' % (python_path, self.configfile)
+        cmd = '%s bootstrap.py' % python_path
         runcmd(cmd) == 0 or error('Could not bootstrap.')
 
     def pull_source_dependencies(self):
         if not os.path.isfile(os.path.join('bin', 'develop')):
             return
+
         cmd = 'bin/develop up'
-        if runcmd(cmd) != 0:
-            print '%s failed: removing sources and retrying' % cmd
-            runcmd('rm -rf src')
-            runcmd(cmd) == 0 or error('bin/develop up failed.')
+        if runcmd(cmd) == 0:
+            return
+
+        print '"%s" failure. Retry after 10 seconds' % cmd
+        time.sleep(10)
+        if runcmd(cmd) == 0:
+            return
+
+        print '"%s" second failure. Remove sources and continue with buildout.' % cmd
+        runcmd('rm -rf src')
 
     def run_buildout(self):
-        cmd = 'bin/buildout -n -c %s' % self.configfile
+        cmd = 'bin/buildout -n'
         runcmd(cmd) == 0 or error('buildout failed.')
 
     def run_tests(self):
