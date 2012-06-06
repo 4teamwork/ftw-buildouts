@@ -217,9 +217,9 @@
                         <string>cpd</string>
                         <hudson.plugins.violations.TypeConfig>
                             <type>cpd</type>
-                            <min>20</min>
-                            <max>999</max>
-                            <unstable>999</unstable>
+                            <min>{{ jenkinscfg.get('cpd_min', 999)}}</min>
+                            <max>{{ jenkinscfg.get('cpd_max', 999)}}</max>
+                            <unstable>{{ jenkinscfg.get('cpd_unstable', 999)}}</unstable>
                             <usePattern>false</usePattern>
                             <pattern>**/parts/testresults/clonedigger.xml</pattern>
                         </hudson.plugins.violations.TypeConfig>
@@ -305,9 +305,9 @@
                         <string>pep8</string>
                         <hudson.plugins.violations.TypeConfig>
                             <type>pep8</type>
-                            <min>10</min>
-                            <max>999</max>
-                            <unstable>999</unstable>
+                            <min>{{ jenkinscfg.get('pep8_min', 999)}}</min>
+                            <max>{{ jenkinscfg.get('pep8_max', 999)}}</max>
+                            <unstable>{{ jenkinscfg.get('pep8_unstable', 999)}}</unstable>
                             <usePattern>false</usePattern>
                             <pattern>**/parts/testresults/pep8.log</pattern>
                         </hudson.plugins.violations.TypeConfig>
@@ -327,9 +327,9 @@
                         <string>pylint</string>
                         <hudson.plugins.violations.TypeConfig>
                             <type>pylint</type>
-                            <min>30</min>
-                            <max>999</max>
-                            <unstable>999</unstable>
+                            <min>{{ jenkinscfg.get('pylint_min', 999)}}</min>
+                            <max>{{ jenkinscfg.get('pylint_max', 999)}}</max>
+                            <unstable>{{ jenkinscfg.get('pylint_unstable', 999)}}</unstable>
                             <usePattern>false</usePattern>
                             <pattern>**/parts/testresults/pylint.log</pattern>
                         </hudson.plugins.violations.TypeConfig>
