@@ -33,7 +33,7 @@ class Main(object):
         sys.exit(self.run_tests())
 
     def symlink_buildout(self):
-        if os.path.isfile('buildout.cfg'):
+        if os.path.isfile('buildout.cfg') or os.path.lexists('buildout.cfg'):
             os.unlink('buildout.cfg')
 
         runcmd('ln -s %s buildout.cfg' % self.configfile) == 0 or \
