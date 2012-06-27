@@ -182,6 +182,13 @@
                     <keepAll>false</keepAll>
                     <wrapperName>htmlpublisher-wrapper.html</wrapperName>
                 </htmlpublisher.HtmlPublisherTarget>
+                <htmlpublisher.HtmlPublisherTarget>
+                    <reportName>Dependency Report</reportName>
+                    <reportDir>parts/testresults</reportDir>
+                    <reportFiles>dependencies.html</reportFiles>
+                    <keepAll>false</keepAll>
+                    <wrapperName>htmlpublisher-wrapper.html</wrapperName>
+                </htmlpublisher.HtmlPublisherTarget>
             </reportTargets>
         </htmlpublisher.HtmlPublisher>
         <hudson.plugins.violations.ViolationsPublisher>
