@@ -126,7 +126,7 @@ function JUnitXMLReportWriter(suitename, result) {
         var classname = suitename + '.' + modulename;
         console.log(
             '  <testcase classname="' + classname + '" ' +
-              'name="testname">');
+              'name="' + testname + '">');
     };
 
     this.testcase_failure = function(message, type, details) {
