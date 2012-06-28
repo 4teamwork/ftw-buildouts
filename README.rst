@@ -51,6 +51,7 @@ Features:
 - bin/test-coverage : A test runner generating and open a coverage report.
 - bin/zopepy : A python shell with zope environment.
 - `omelette`_
+- bin/qunit : Run qunit tests (tests/qunit/test*.html) using `PhantomJS`_.
 
 Example usage: add a configuration file to your
 package (``development.cfg``)::
@@ -75,8 +76,17 @@ Buildout options
   expected at ``foo/bar``, ``src/foo/bar`` or ``src/foo.bar/foo/bar``.
 
 
+qunit tests / PhantomJS
+-----------------------
+
+Running qunit tests with jenkins compatible XML reports is possible with ``bin/qunit``.
+It requires `PhantomJS`_ to be installed and either in the ``$PATH`` or in
+``$PHANTOMJS`` environment variable.
+
+
 
 .. _coverage: http://pypi.python.org/pypi/coverage
 .. _Cobertura Jenkins Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
 .. _Warnings Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin
 .. _omelette: http://pypi.python.org/pypi/collective.recipe.omelette
+.. _PhantomJS: http://phantomjs.org/
