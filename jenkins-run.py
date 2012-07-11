@@ -131,6 +131,7 @@ class BuildoutConfigReader(object):
     def _download_file(self, url):
         """ Download file from *url*, store it in a tempfile and return its path
         """
+        print '  download', url
         if self._temporary_downloaded is None:
             # we need to keep a reference to the tempfile, otherwise it will be deleted
             # imidiately
