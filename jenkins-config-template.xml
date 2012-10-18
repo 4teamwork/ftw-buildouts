@@ -22,6 +22,17 @@
             <projectUrl>{{ github_url }}</projectUrl>
         </com.coravy.hudson.plugins.github.GithubProjectProperty>
         {% endif %}
+
+        <EnvInjectJobProperty plugin="envinject@1.72">
+            <info>
+                <propertiesContent>BROWSER={{ jenkinscfg.get('browser', 'Firefox')}}</propertiesContent>
+                <loadFilesFromMaster>false</loadFilesFromMaster>
+            </info>
+            <on>true</on>
+            <keepJenkinsSystemVariables>true</keepJenkinsSystemVariables>
+            <keepBuildVariables>true</keepBuildVariables>
+            <contributors/>
+        </EnvInjectJobProperty>
     </properties>
 
     <scm class="hudson.plugins.git.GitSCM">
