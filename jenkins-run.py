@@ -61,7 +61,7 @@ class Main(object):
         runcmd('rm -rf src')
 
     def run_buildout(self):
-        cmd = 'bin/buildout -n'
+        cmd = 'bin/buildout -n -t 10'
         runcmd(cmd) == 0 or error('buildout failed.')
 
     def run_tests(self):
