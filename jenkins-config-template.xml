@@ -189,6 +189,13 @@
                     <keepAll>false</keepAll>
                     <wrapperName>htmlpublisher-wrapper.html</wrapperName>
                 </htmlpublisher.HtmlPublisherTarget>
+                <htmlpublisher.HtmlPublisherTarget>
+                    <reportName>Robot Report</reportName>
+                    <reportDir>parts/test</reportDir>
+                    <reportFiles>robot_report.html</reportFiles>
+                    <keepAll>false</keepAll>
+                    <wrapperName>htmlpublisher-wrapper.html</wrapperName>
+                </htmlpublisher.HtmlPublisherTarget>
             </reportTargets>
         </htmlpublisher.HtmlPublisher>
         <hudson.plugins.violations.ViolationsPublisher>
