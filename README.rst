@@ -41,7 +41,8 @@ package has a ``extras_require`` with the name ``tests`` (see option
 ``${buildout:test-egg}``).
 
 **plone-development.cfg**: Provides a buildout base configuration for
-developing a plone add-on package.
+developing a plone add-on package. It is an extension for a version specific
+test buildout.
 
 Features:
 
@@ -58,7 +59,7 @@ package (``development.cfg``)::
 
     [buildout]
     extends =
-        http://dist.plone.org/release/4.1/versions.cfg
+        https://raw.github.com/4teamwork/ftw-buildouts/master/test-plone-4.2.x.cfg
         https://raw.github.com/4teamwork/ftw-buildouts/master/plone-development.cfg
 
     package-name = my.package
