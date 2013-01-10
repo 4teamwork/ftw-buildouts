@@ -49,13 +49,11 @@ class Main(object):
         if not os.path.isfile(os.path.join('bin', 'develop')):
             return
 
-        def rerun_needed(errors):
-            return True
-
-        if not runcmd_with_retries('bin/develop up', rerun_needed,
-                                   retries=2, sleep=10):
-            print 'Removing source directory.'
-            runcmd('rm -rf src')
+        runcmd_with_retries(
+            'bin/develop up',
+            lambda errors: True,
+            retries=2,
+            sleep=20) or runcmd('rm -rf src')
 
     def run_buildout(self):
         def rerun_needed(errors):
@@ -248,9 +246,9 @@ def runcmd(command, stderr=None):
     return os.system(command) >> 8
 
 
-def runcmd_with_retries(command, stderr_check, retries=5, sleep=30):
+def runcmd_with_retries(command, rerun_condition, retries=5, sleep=30):
     """Runs a command and retries if the exitcode is not 0.
-    Expects a command (string) and a `stderr_check` function, which will
+    Expects a command (string) and a `rerun_condition` function, which will
     be called with the stderr (string) of the last run. If it returns
     `True` the command will be rerun.
     If the command still fails after `retries` the function returns
@@ -258,8 +256,7 @@ def runcmd_with_retries(command, stderr_check, retries=5, sleep=30):
     """
 
     for attempt in range(1, retries + 2):
-        if attempt > 1:
-            time.sleep(sleep)
+        is_last = attempt == retries + 1
 
         with tempfile.NamedTemporaryFile() as stderr:
             exitcode = runcmd(command, stderr=stderr)
@@ -269,12 +266,15 @@ def runcmd_with_retries(command, stderr_check, retries=5, sleep=30):
         if exitcode == 0:
             return True
 
-        elif stderr_check(errors):
+        elif not is_last and rerun_condition(errors):
             print 'Attempt %i of "%s" failed. Retrying after %s seconds.' % (
                 attempt, command, sleep)
             print '\n'
+            time.sleep(sleep)
 
         else:
+            print 'Attempt %i of "%s" failed.' % (attempt, command)
+            print '\n'
             return False
 
     assert exitcode != 0
