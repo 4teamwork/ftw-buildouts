@@ -10,6 +10,7 @@ using mr.developer (if there are any) and run all tests.
 from urlparse import urlparse
 import ConfigParser
 import os
+import subprocess
 import sys
 import tempfile
 import time
@@ -48,21 +49,30 @@ class Main(object):
         if not os.path.isfile(os.path.join('bin', 'develop')):
             return
 
-        cmd = 'bin/develop up'
-        if runcmd(cmd) == 0:
-            return
+        def rerun_needed(errors):
+            return True
 
-        print '"%s" failure. Retry after 10 seconds' % cmd
-        time.sleep(10)
-        if runcmd(cmd) == 0:
-            return
-
-        print '"%s" second failure. Remove sources and continue with buildout.' % cmd
-        runcmd('rm -rf src')
+        if not runcmd_with_retries('bin/develop up', rerun_needed,
+                                   retries=2, sleep=10):
+            print 'Removing source directory.'
+            runcmd('rm -rf src')
 
     def run_buildout(self):
-        cmd = 'bin/buildout -n -t 10'
-        runcmd(cmd) == 0 or error('buildout failed.')
+        def rerun_needed(errors):
+            rerun_errors = (
+                "('http error', 502, 'Bad Gateway',",
+                "IOError: ('http error', 502, 'Bad Gateway',")
+
+            for err in rerun_errors:
+                if err in errors:
+                    return True
+            return False
+
+        runcmd_with_retries(
+            'bin/buildout -n -t 10',
+            rerun_needed,
+            retries=5,
+            sleep=60) or error('Buildout failed.')
 
     def run_tests(self):
         return runcmd('bin/test-jenkins')
@@ -224,12 +234,51 @@ class HTTPRealmFinder:
         print self.get()
 
 
-def runcmd(command):
+def runcmd(command, stderr=None):
     """Execute a command and return the actual exit code.
     """
+    print ''
     print '+ %s' % command
     sys.stdout.flush()
+
+    if stderr:
+        tee = subprocess.Popen(["tee", stderr.name], stdin=subprocess.PIPE)
+        os.dup2(tee.stdin.fileno(), sys.stderr.fileno())
+
     return os.system(command) >> 8
+
+
+def runcmd_with_retries(command, stderr_check, retries=5, sleep=30):
+    """Runs a command and retries if the exitcode is not 0.
+    Expects a command (string) and a `stderr_check` function, which will
+    be called with the stderr (string) of the last run. If it returns
+    `True` the command will be rerun.
+    If the command still fails after `retries` the function returns
+    `Flase`, otherwise `True`.
+    """
+
+    for attempt in range(1, retries + 2):
+        if attempt > 1:
+            time.sleep(sleep)
+
+        with tempfile.NamedTemporaryFile() as stderr:
+            exitcode = runcmd(command, stderr=stderr)
+            stderr.seek(0)
+            errors = stderr.read()
+
+        if exitcode == 0:
+            return True
+
+        elif stderr_check(errors):
+            print 'Attempt %i of "%s" failed. Retrying after %s seconds.' % (
+                attempt, command, sleep)
+            print '\n'
+
+        else:
+            return False
+
+    assert exitcode != 0
+    return False
 
 
 def error(msg, exit=1):
