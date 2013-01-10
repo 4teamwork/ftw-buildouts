@@ -235,16 +235,17 @@ class HTTPRealmFinder:
         print self.get()
 
 
-def runcmd(command, stderr=None):
+def runcmd(command, teefile=None):
     """Execute a command and return the actual exit code.
     """
     print ''
     print '+ %s' % command
     sys.stdout.flush()
 
-    if stderr:
-        tee = subprocess.Popen(["tee", stderr.name], stdin=subprocess.PIPE)
+    if teefile:
+        tee = subprocess.Popen(["tee", teefile.name], stdin=subprocess.PIPE)
         os.dup2(tee.stdin.fileno(), sys.stderr.fileno())
+        os.dup2(tee.stdin.fileno(), sys.stdout.fileno())
 
     return os.system(command) >> 8
 
@@ -261,10 +262,10 @@ def runcmd_with_retries(command, rerun_condition, retries=5, sleep=30):
     for attempt in range(1, retries + 2):
         is_last = attempt == retries + 1
 
-        with tempfile.NamedTemporaryFile() as stderr:
-            exitcode = runcmd(command, stderr=stderr)
-            stderr.seek(0)
-            errors = stderr.read()
+        with tempfile.NamedTemporaryFile() as outfile:
+            exitcode = runcmd(command, teefile=outfile)
+            outfile.seek(0)
+            errors = outfile.read()
 
         if exitcode == 0:
             return True
