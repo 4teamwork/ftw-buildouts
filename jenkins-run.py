@@ -59,7 +59,10 @@ class Main(object):
         def rerun_needed(errors):
             rerun_errors = (
                 "('http error', 502, 'Bad Gateway',",
-                "IOError: ('http error', 502, 'Bad Gateway',")
+                "IOError: ('http error', 502, 'Bad Gateway',",
+                "mr.developer: error: The requested URL returned " + \
+                    "error: 503 while accessing",
+                )
 
             for err in rerun_errors:
                 if err in errors:
