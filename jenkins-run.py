@@ -64,6 +64,7 @@ class Main(object):
                     "error: 503 while accessing",
                 "varnish-conf: <urlopen error timed out>",
                 "IOError: [Errno socket error]",
+                "mr.developer: git pull of",  # 'packaage' failed.
                 )
 
             for err in rerun_errors:
