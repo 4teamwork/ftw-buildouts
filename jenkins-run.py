@@ -24,6 +24,8 @@ class Main(object):
             print 'Usage: jenkins-run.py BUILDOUT-CONFIG-FILE'
             sys.exit(0)
         self.configfile = args[0]
+        self.buildout_retries = 5
+        self.current_buildout_attempt = 0
 
     def __call__(self):
         self.symlink_buildout()
@@ -63,6 +65,7 @@ class Main(object):
                 "mr.developer: error: The requested URL returned " + \
                     "error: 503 while accessing",
                 "varnish-conf: <urlopen error timed out>",
+                "varnish-conf: <urlopen error The read operation timed out>",
                 "IOError: [Errno socket error]",
                 "mr.developer: git pull of",  # 'packaage' failed.
                 )
@@ -73,10 +76,16 @@ class Main(object):
             return False
 
         runcmd_with_retries(
-            'bin/buildout -n -t 10',
+            self.buildout_command,
             rerun_needed,
             retries=5,
             sleep=60) or error('Buildout failed.')
+
+    @property
+    def buildout_command(self):
+        self.current_buildout_attempt += 1
+        timeout = (2 ** (self.current_buildout_attempt - 1)) * 5
+        return 'bin/buildout -n -t %i' % timeout
 
     def run_tests(self):
         return runcmd('bin/test-jenkins')
