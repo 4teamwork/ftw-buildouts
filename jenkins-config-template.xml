@@ -380,7 +380,9 @@
         <hudson.tasks.junit.JUnitResultArchiver>
             <testResults>**parts/test/testreports/*.xml</testResults>
             <keepLongStdio>false</keepLongStdio>
-            <testDataPublishers/>
+            <testDataPublishers>
+                <hudson.plugins.claim.ClaimTestDataPublisher plugin="claim@1.7"/>
+            </testDataPublishers>
         </hudson.tasks.junit.JUnitResultArchiver>
         <hudson.plugins.cobertura.CoberturaPublisher>
             <coberturaReportFile>**/parts/testresults/coverage.xml</coberturaReportFile>
