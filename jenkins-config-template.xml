@@ -1,6 +1,7 @@
 <project>
     <actions/>
     <description/>
+    <displayName>{{ display_name }}</displayName>
     <logRotator>
         <daysToKeep>7</daysToKeep>
         <numToKeep>14</numToKeep>
