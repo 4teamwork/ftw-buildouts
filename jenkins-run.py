@@ -68,6 +68,7 @@ class Main(object):
                 "varnish-conf: <urlopen error The read operation timed out>",
                 "IOError: [Errno socket error]",
                 "mr.developer: git pull of",  # 'packaage' failed.
+                'timeout: timed out',
                 )
 
             for err in rerun_errors:
