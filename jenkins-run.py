@@ -69,6 +69,7 @@ class Main(object):
                 "IOError: [Errno socket error]",
                 "mr.developer: git pull of",  # 'packaage' failed.
                 'timeout: timed out',
+                'Error: Error downloading extends for URL',
                 )
 
             for err in rerun_errors:
