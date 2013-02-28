@@ -67,9 +67,12 @@ class Main(object):
                 "varnish-conf: <urlopen error timed out>",
                 "varnish-conf: <urlopen error The read operation timed out>",
                 "IOError: [Errno socket error]",
-                "mr.developer: git pull of",  # 'packaage' failed.
+                "mr.developer: git pull of",  # 'package' failed.
                 'timeout: timed out',
                 'Error: Error downloading extends for URL',
+
+                # Sometimes we get a 404 when pypi is maintained (?)
+                "IOError: ('http error', 404, 'Not Found'",
                 )
 
             for err in rerun_errors:
