@@ -13,7 +13,8 @@
 # R0801: Similar lines in 2 files
 # R0901: Too many ancestors -> not very useful with zope.
 # W0141: Used builtin function -> we prefer "filter" over list comprehensions etc.
-disable=E0611,F0401,W0232,E1101,C0103,R0903,W0613,I0011,C0111,R0904,W0142,E1002,R0201,R0922,C0102,R0921,R0913,R0902,R0801,R0901,W0141
+# E1103:	Instance of '**' has no '**' member (...) -> getToolByName-tools are treated as list, which is annoying.
+disable=E0611,F0401,W0232,E1101,C0103,R0903,W0613,I0011,C0111,R0904,W0142,E1002,R0201,R0922,C0102,R0921,R0913,R0902,R0801,R0901,W0141,E1103
 
 
 [REPORTS]
