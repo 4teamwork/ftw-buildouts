@@ -70,6 +70,7 @@ class Main(object):
                 "mr.developer: git pull of",  # 'package' failed.
                 'timeout: timed out',
                 'Error: Error downloading extends for URL',
+                "IOError: ('http error', 503, 'Connection timed out',",
 
                 # Sometimes we get a 404 when pypi is maintained (?)
                 "IOError: ('http error', 404, 'Not Found'",
