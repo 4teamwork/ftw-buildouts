@@ -73,7 +73,7 @@
     <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
     <triggers class="vector">
         <hudson.triggers.TimerTrigger>
-            <spec>0 1 * * *</spec>
+            <spec>H H(1-8) * * *</spec>
         </hudson.triggers.TimerTrigger>
     </triggers>
     <concurrentBuild>false</concurrentBuild>
