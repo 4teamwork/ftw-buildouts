@@ -72,9 +72,11 @@
     <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
     <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
     <triggers class="vector">
+        {% if branch_spec == "master" %}
         <hudson.triggers.TimerTrigger>
             <spec>H H(1-8) * * *</spec>
         </hudson.triggers.TimerTrigger>
+        {% endif %}
     </triggers>
     <concurrentBuild>false</concurrentBuild>
     <builders>
