@@ -450,6 +450,7 @@
         </hudson.tasks.Mailer>
     </publishers>
     <buildWrappers>
+        <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.3"/>
         <org.jvnet.hudson.plugins.port__allocator.PortAllocator plugin="port-allocator@1.5">
             <ports>
                 <org.jvnet.hudson.plugins.port__allocator.DefaultPortType>
