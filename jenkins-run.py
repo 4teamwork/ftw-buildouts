@@ -7,6 +7,7 @@ with the passed buildout configuration file, update source dependencies
 using mr.developer (if there are any) and run all tests.
 """
 
+from md5 import md5
 from urlparse import urlparse
 import ConfigParser
 import os
@@ -117,6 +118,7 @@ class BuildoutConfigReader(object):
     def __init__(self, mainconfig):
         self.mainconfig = os.path.abspath(mainconfig)
         self._temporary_downloaded = None
+        self.extends_cache = ExtendsCache()
 
     def get_config(self):
         files = self.get_ordered_extend_files()
@@ -136,7 +138,9 @@ class BuildoutConfigReader(object):
 
     def get_extends_recursive(self, configfiles, file_or_url):
         if file_or_url.startswith('http'):
-            path = self._download_file(file_or_url)
+            path = self.extends_cache.get_cache_path_for(file_or_url)
+            if path is None:
+                path = self._download_file(file_or_url)
         else:
             path = file_or_url
         directory, filename = os.path.split(path)
@@ -251,6 +255,55 @@ class HTTPRealmFinder:
 
     def prt(self):
         print self.get()
+
+
+class ExtendsCache(object):
+    """Loads config files from the global extends cache
+    (~/.buildout/default.cfg) for guessing python version if there
+    is one configured.
+    """
+
+    def __init__(self, config_file='~/.buildout/default.cfg'):
+        self.extends_cache_directory = self._get_cache_directory(config_file)
+
+    def get_cache_path_for(self, url):
+        """Returns the path to the cache file, caching the contents of `url`.
+        If there is not (yet) such a cache file, `None` is returned.
+        """
+
+        if not self.extends_cache_directory:
+            return None
+
+        hash_ = md5(url).hexdigest()
+
+        cache_path = os.path.extends(self.extends_cache_directory, hash_)
+        if not os.path.isfile(cache_path):
+            return None
+
+        return cache_path
+
+    def _get_cache_directory(self, config_file):
+        config_file = os.path.expand(config_file)
+        if not os.path.exists(config_file):
+            return None
+
+        parser = ConfigParser.SafeConfigParser()
+        parser.read(config_file)
+
+        if not parser.has_option('buildout', 'extends-cache'):
+            return None
+
+        cache_directory = os.path.expand(
+            parser.get('buildout', 'extends-cache'))
+        if not os.path.exists(cache_directory):
+            return None
+
+        return cache_directory
+
+
+
+
+
 
 
 def runcmd(command, teefile=None):
