@@ -72,6 +72,7 @@ class Main(object):
                 'timeout: timed out',
                 'Error: Error downloading extends for URL',
                 "IOError: ('http error', 503, 'Connection timed out',",
+                'error: [Errno 104] Connection reset by peer',
 
                 # Sometimes we get a 404 when pypi is maintained (?)
                 "IOError: ('http error', 404, 'Not Found'",
