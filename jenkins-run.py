@@ -284,7 +284,7 @@ class ExtendsCache(object):
         return cache_path
 
     def _get_cache_directory(self, config_file):
-        config_file = os.path.expand(config_file)
+        config_file = os.path.expanduser(config_file)
         if not os.path.exists(config_file):
             return None
 
@@ -294,17 +294,12 @@ class ExtendsCache(object):
         if not parser.has_option('buildout', 'extends-cache'):
             return None
 
-        cache_directory = os.path.expand(
+        cache_directory = os.path.expanduser(
             parser.get('buildout', 'extends-cache'))
         if not os.path.exists(cache_directory):
             return None
 
         return cache_directory
-
-
-
-
-
 
 
 def runcmd(command, teefile=None):
