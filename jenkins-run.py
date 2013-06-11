@@ -277,7 +277,7 @@ class ExtendsCache(object):
 
         hash_ = md5(url).hexdigest()
 
-        cache_path = os.path.extends(self.extends_cache_directory, hash_)
+        cache_path = os.path.join(self.extends_cache_directory, hash_)
         if not os.path.isfile(cache_path):
             return None
 
