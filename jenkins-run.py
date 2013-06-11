@@ -45,7 +45,13 @@ class Main(object):
 
     def run_bootstrap(self):
         python_path = self.get_python_path()
-        cmd = '%s bootstrap.py' % python_path
+        if python_path.endswith('buildout'):
+            # we use another buildout to bootstrap - do it offline
+            cmd = '%s -o bootstrap' % python_path
+
+        else:
+            # we use a regular python to bootstrap
+            cmd = '%s bootstrap.py' % python_path
         runcmd(cmd) == 0 or error('Could not bootstrap.')
 
     def pull_source_dependencies(self):
