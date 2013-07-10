@@ -21,15 +21,23 @@ import urllib2
 class Main(object):
 
     def __init__(self, args):
-        if len(args) != 1 or not os.path.isfile(args[0]):
+        if len(args) == 0 and os.path.isfile('buildout.cfg'):
+            self.configfile = 'buildout.cfg'
+
+        elif len(args) == 1 and os.path.isfile(args[0]):
+            self.configfile = args[0]
+
+        else:
             print 'Usage: jenkins-run.py BUILDOUT-CONFIG-FILE'
             sys.exit(0)
-        self.configfile = args[0]
+
         self.buildout_retries = 5
         self.current_buildout_attempt = 0
 
     def __call__(self):
-        self.symlink_buildout()
+        if self.configfile != 'buildout.cfg':
+            self.symlink_buildout()
+
         if not os.path.isfile(os.path.join('bin', 'buildout')):
             self.run_bootstrap()
         self.pull_source_dependencies()
