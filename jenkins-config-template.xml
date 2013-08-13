@@ -443,6 +443,11 @@
             <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
             <sendToIndividuals>true</sendToIndividuals>
         </hudson.tasks.Mailer>
+        {% if branch_spec == "master" %}
+        <ch.ftw.jenkins.activitystation.StationNotifier plugin="activity-station@1.0-SNAPSHOT">
+            <jenkinsUrl>https://jenkins.4teamwork.ch/</jenkinsUrl>
+        </ch.ftw.jenkins.activitystation.StationNotifier>
+        {% endif %}
     </publishers>
     <buildWrappers>
         <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.3"/>
