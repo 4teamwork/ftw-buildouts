@@ -183,7 +183,7 @@ Here is a full example, below is the detail explenation:
     instance-eggs =
         mywebsite
 
-    supervisor-client-startsecs = 30
+    supervisor-client-startsecs = 60
     supervisor-memmon-size = 1200MB
     supervisor-httpok-timeout = 40
     supervisor-email = zope@localhost
