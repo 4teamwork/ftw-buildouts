@@ -158,6 +158,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10505, "bin/instance5", "Additional ZEO client (optional)"
   "...", "bin/instance...", "..."
   10520, "bin/zeo", "ZEO Server (Database)"
+  10530, "bin/solr-instance", "Solr instance"
   10150, "bin/haproxy", "Haproxy (reserved, not installation yet)"
   10199, "bin/supervisord", "Supervisor daemon"
 
