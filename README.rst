@@ -58,6 +58,11 @@ Features:
 - bin/zopepy : A python shell with zope environment.
 - `omelette`_
 - bin/qunit : Run qunit tests (tests/qunit/test*.html) using `PhantomJS`_.
+- bin/i18n-build: Extract and sync translation strings. All you need to keep the
+  package's translations in sync. Also syncs the files
+  ``${buildout:package-name}-manual.pot`` (manually created translations) and
+  ``${buildout:package-name}-content.pot`` (translations from `ftw.inflator`_
+  initial content).
 
 Example usage: add a configuration file to your
 package (``development.cfg``)::
@@ -222,3 +227,4 @@ Details:
 .. _omelette: http://pypi.python.org/pypi/collective.recipe.omelette
 .. _PhantomJS: http://phantomjs.org/
 .. _ftw.recipe.deployment: https://github.com/4teamwork/ftw.recipe.deployment
+.. _ftw.inflator: https://github.com/4teamwork/ftw.inflator
