@@ -231,7 +231,7 @@ is configured. You just need to install ``ftw.tika`` in ``portal_setup``.
 
 Example:
 
-..code:: ini
+.. code:: ini
 
     [buildout]
     extends =
