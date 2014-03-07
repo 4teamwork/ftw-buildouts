@@ -164,6 +164,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   "...", "bin/instance...", "..."
   10520, "bin/zeo", "ZEO Server (Database)"
   10530, "bin/solr-instance", "Solr instance"
+  10531, "bin/tika-server", "Tika Server"
   10150, "bin/haproxy", "Haproxy (reserved, not installation yet)"
   10199, "bin/supervisord", "Supervisor daemon"
 
@@ -220,6 +221,25 @@ Details:
 - ``plone-languages`` - The short names of the languages which are loaded by Zope.
 
 
+Tika server
+~~~~~~~~~~~
+
+The ``tika-server.cfg`` installs and configures `ftw.tika`_ as daemon, which provides
+document to text transforms (e.g. for fulltext indexing) using `Apache Tika`_.
+A ``bin/tika-server`` script is installed and hooked up with supervisor and ``ftw.tika``
+is configured. You just need to install ``ftw.tika`` in ``portal_setup``.
+
+Example:
+
+..code:: ini
+
+    [buildout]
+    extends =
+        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.github.com/4teamwork/ftw-buildouts/master/tika-server.cfg
+
+    deployment-number = 05
+
 
 .. _coverage: http://pypi.python.org/pypi/coverage
 .. _Cobertura Jenkins Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
@@ -228,3 +248,5 @@ Details:
 .. _PhantomJS: http://phantomjs.org/
 .. _ftw.recipe.deployment: https://github.com/4teamwork/ftw.recipe.deployment
 .. _ftw.inflator: https://github.com/4teamwork/ftw.inflator
+.. _ftw.tika: https://github.com/4teamwork/ftw.tika
+.. _Apache Tika: http://tika.apache.org/
