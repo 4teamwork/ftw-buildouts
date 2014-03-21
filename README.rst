@@ -144,6 +144,31 @@ An example:
         mywebsite
 
 
+.. _Additional ZCML:
+
+Additional ZCML
+~~~~~~~~~~~~~~~
+
+There is a `problem <https://github.com/plone/plone.recipe.zope2instance/pull/13>`_ with
+extending the ``zcml-additional``.
+As a workaround we use the ``buildout:zcml-additional-fragments`` variable, which takes
+care that ``zcml-additional`` is wrapped properly.
+
+Usage example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
+
+    deployment-number = 05
+
+    zcml-additional-fragments +=
+        <include package="my.package" file="meta.zcml" />
+        <myPackageSecurity token="123123" />
+
+
 Port range configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -199,6 +224,10 @@ Here is a full example, below is the detail explenation:
 
     plone-languages = en de fr
 
+    zcml-additional-fragments +=
+        <include package="my.package" file="meta.zcml" />
+        <myPackageSecurity token="123123" />
+
 
 These are the most common configuration settings.
 You can also override any options in the sections of the parts.
@@ -219,6 +248,7 @@ Details:
 - ``supervisor-httpok-options`` - Allows to change or extend the httpok settings per instance. The process name
   and the http address are added per ZEO client.
 - ``plone-languages`` - The short names of the languages which are loaded by Zope.
+- ``zcml-additional-fragments`` - Define additional zcml to load. See the `Additional ZCML`_ section.
 
 
 Tika server
@@ -239,7 +269,6 @@ Example:
         https://raw.github.com/4teamwork/ftw-buildouts/master/tika-server.cfg
 
     deployment-number = 05
-
 
 .. _coverage: http://pypi.python.org/pypi/coverage
 .. _Cobertura Jenkins Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
