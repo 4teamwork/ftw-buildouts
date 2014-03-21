@@ -161,6 +161,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10503, "bin/instance3", "Additional ZEO client (optional)"
   10504, "bin/instance4", "Additional ZEO client (optional)"
   10505, "bin/instance5", "Additional ZEO client (optional)"
+  10519, "bin/maintenance", "Maintenance HTTP Server (ftw.maintenanceserver)"
   "...", "bin/instance...", "..."
   10520, "bin/zeo", "ZEO Server (Database)"
   10530, "bin/solr-instance", "Solr instance"
@@ -221,6 +222,27 @@ Details:
 - ``plone-languages`` - The short names of the languages which are loaded by Zope.
 
 
+
+Maintenance HTTP Server
+~~~~~~~~~~~~~~~~~~~~~~~
+
+When including the ``maintenance-server.cfg``, a maintenance HTTP server is automatically
+configured (using `ftw.maintenanceserver`_), listening on port ``1XX19`` and serving
+the ``${buildout:directory}/maintenance`` directory, which is expected to contain
+an ``index.html`` file.
+
+Example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.github.com/4teamwork/ftw-buildouts/master/maintenance-server.cfg
+
+    deployment-number = 05
+
+
 Tika server
 ~~~~~~~~~~~
 
@@ -249,4 +271,5 @@ Example:
 .. _ftw.recipe.deployment: https://github.com/4teamwork/ftw.recipe.deployment
 .. _ftw.inflator: https://github.com/4teamwork/ftw.inflator
 .. _ftw.tika: https://github.com/4teamwork/ftw.tika
+.. _ftw.maintenanceserver: https://github.com/4teamwork/ftw.maintenanceserver
 .. _Apache Tika: http://tika.apache.org/
