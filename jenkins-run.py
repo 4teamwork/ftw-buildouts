@@ -52,6 +52,17 @@ class Main(object):
             error('Symlinking failed.')
 
     def run_bootstrap(self):
+        def rerun_needed(errors):
+            rerun_errors = (
+                # bitbucket.org is offline while bootstrapping
+                'HTTP Error 503: SERVICE UNAVAILABLE',
+                )
+
+            for err in rerun_errors:
+                if err in errors:
+                    return True
+            return False
+
         python_path = self.get_python_path()
         if python_path.endswith('buildout'):
             # we use another buildout to bootstrap - do it offline
@@ -60,7 +71,12 @@ class Main(object):
         else:
             # we use a regular python to bootstrap
             cmd = '%s bootstrap.py' % python_path
-        runcmd(cmd) == 0 or error('Could not bootstrap.')
+
+        runcmd_with_retries(
+            cmd,
+            rerun_needed,
+            retries=5,
+            sleep=5)
 
     def pull_source_dependencies(self):
         if not os.path.isfile(os.path.join('bin', 'develop')):
