@@ -223,6 +223,8 @@ Here is a full example, below is the detail explenation:
     supervisor-memmon-options = -a ${buildout:supervisor-memmon-size} -m ${buildout:supervisor-email}
     supervisor-httpok-options = -t ${buildout:supervisor-httpok-timeout} -m ${buildout:supervisor-email}
 
+    os-user = zope
+
     plone-languages = en de fr
 
     zcml-additional-fragments +=
@@ -248,6 +250,9 @@ Details:
 - ``supervisor-memmon-options`` - Allows to change or extend the memmon configuration options.
 - ``supervisor-httpok-options`` - Allows to change or extend the httpok settings per instance. The process name
   and the http address are added per ZEO client.
+- ``os-user`` - The operating system user is used by supervisor, which makes sure
+  that the processes managed by supervisor are started with this user.
+  It defaults to ``zope``.
 - ``plone-languages`` - The short names of the languages which are loaded by Zope.
 - ``zcml-additional-fragments`` - Define additional zcml to load. See the `Additional ZCML`_ section.
 
