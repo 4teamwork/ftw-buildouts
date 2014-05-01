@@ -140,7 +140,7 @@ An example:
     filestorage-parts =
         www.mywebsite.com
 
-    instance-eggs =
+    instance-eggs +=
         mywebsite
 
 
@@ -213,7 +213,7 @@ Here is a full example, below is the detail explenation:
     filestorage-parts =
         www.mywebsite.com
 
-    instance-eggs =
+    instance-eggs +=
         mywebsite
 
     supervisor-client-startsecs = 60
@@ -292,6 +292,85 @@ Example:
 
     deployment-number = 05
 
+
+Warmup
+~~~~~~
+
+For production deployments, the ``warmup.cfg`` installs and configures
+`collective.warmup`_ to automatically hit the site root when an instance is started
+or restarted.
+It also requests the resources, resulting in cooked resources (JavaScript / CSS).
+
+It works without further configuration when there is *only one filestorage-part*
+configured and the *plone site has the ID* ``platform``.
+
+Simple example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.github.com/4teamwork/ftw-buildouts/master/warmup.cfg
+
+    deployment-number = 05
+
+    filestorage-parts = www.mywebsite.com
+    instance-eggs += mywebsite
+
+.. note:: Make sure to use ``instance-eggs +=`` rather than ``instance-eggs =``,
+   otherwise the ``collective.warmup`` will not be installed.
+
+When booting up ``bin/instance1``, this configuration will make a request to
+``http://localhost:10501/www.mywebsite.com/platform``.
+
+If you have different paths you can configuration the base path manually:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.github.com/4teamwork/ftw-buildouts/master/warmup.cfg
+
+    deployment-number = 05
+
+    filestorage-parts =
+        www.mywebsite.com
+        test.mywebsite.com
+    instance-eggs += mywebsite
+
+    [warmup-configuration]
+    base_path = www.mywebsite.com/Plone
+
+If you want to add more urls to check, follow the instructions in the
+`collective.warmup`_ readme and fill in ``warmup-configuration`` options, e.g.:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.github.com/4teamwork/ftw-buildouts/master/warmup.cfg
+
+    deployment-number = 05
+
+    filestorage-parts = www.mywebsite.com
+    instance-eggs += mywebsite
+
+    [warmup-configuration]
+    urls += sitemap
+
+    url-sections +=
+        [sitemap]
+        path = ${warmup-configuration:base_path}/sitemap
+        check_exists = Sitemap
+
+The ``warmup-configuration:urls`` and ``warmup-configuration:url-sections`` options
+will be included in the generated warmup configuration file.
+
+
+
 .. _coverage: http://pypi.python.org/pypi/coverage
 .. _Cobertura Jenkins Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
 .. _Warnings Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin
@@ -302,3 +381,4 @@ Example:
 .. _ftw.tika: https://github.com/4teamwork/ftw.tika
 .. _ftw.maintenanceserver: https://github.com/4teamwork/ftw.maintenanceserver
 .. _Apache Tika: http://tika.apache.org/
+.. _collective.warmup: https://github.com/collective/collective.warmup
