@@ -56,7 +56,6 @@ Features:
 - bin/test-coverage : A test runner generating and open a coverage report.
 - bin/zopepy : A python shell with zope environment.
 - `omelette`_
-- bin/qunit : Run qunit tests (tests/qunit/test*.html) using `PhantomJS`_.
 - bin/i18n-build: Extract and sync translation strings. All you need to keep the
   package's translations in sync. Also syncs the files
   ``${buildout:package-name}-manual.pot`` (manually created translations) and
@@ -84,16 +83,6 @@ Buildout options
   namespace directory. This is used for packages wich have a different name than
   namespace. By default, for a package with name ``foo.bar`` the source is
   expected at ``foo/bar``, ``src/foo/bar`` or ``src/foo.bar/foo/bar``.
-
-
-qunit tests / PhantomJS
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Running qunit tests with jenkins compatible XML reports is possible with ``bin/qunit``.
-It requires `PhantomJS`_ to be installed and either in the ``$PATH`` or in
-``$PHANTOMJS`` environment variable.
-
-
 
 
 
