@@ -36,7 +36,7 @@ package (``test-plone-4.1.x.cfg``)::
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/test-plone-4.1.x.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/test-plone-4.1.x.cfg
 
     package-name = my.package
 
@@ -69,8 +69,8 @@ package (``development.cfg``)::
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/test-plone-4.2.x.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/plone-development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/test-plone-4.2.x.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development.cfg
 
     package-name = my.package
 
@@ -132,8 +132,8 @@ An example:
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/zeoclients/4.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zeoclients/4.cfg
 
     deployment-number = 05
 
@@ -160,7 +160,7 @@ Usage example:
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
 
     deployment-number = 05
 
@@ -205,8 +205,8 @@ Here is a full example, below is the detail explenation:
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/zeoclients/4.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zeoclients/4.cfg
 
     deployment-number = 05
 
@@ -272,8 +272,8 @@ Example:
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/maintenance-server.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/maintenance-server.cfg
 
     deployment-number = 05
 
@@ -292,8 +292,8 @@ Example:
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/tika-server.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/tika-server.cfg
 
     deployment-number = 05
 
@@ -315,8 +315,8 @@ Simple example:
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/warmup.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/warmup.cfg
 
     deployment-number = 05
 
@@ -335,8 +335,8 @@ If you have different paths you can configuration the base path manually:
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/warmup.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/warmup.cfg
 
     deployment-number = 05
 
@@ -355,8 +355,8 @@ If you want to add more urls to check, follow the instructions in the
 
     [buildout]
     extends =
-        https://raw.github.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.github.com/4teamwork/ftw-buildouts/master/warmup.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/warmup.cfg
 
     deployment-number = 05
 
