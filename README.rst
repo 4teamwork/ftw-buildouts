@@ -23,7 +23,6 @@ Features:
   `Cobertura Jenkins Plugin`_).
 - Pyflakes report (use jenkins `Warnings Plugin`_).
 - Pep8 report
-- Pylint report
 - A check-translations script, warning if not translatable strings were used
   in templates and providing a translation statistic.
 
