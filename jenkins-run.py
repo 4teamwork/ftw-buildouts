@@ -56,6 +56,9 @@ class Main(object):
             rerun_errors = (
                 # bitbucket.org is offline while bootstrapping
                 'HTTP Error 503: SERVICE UNAVAILABLE',
+
+                # raw.githubusercontent.com has timed out:
+                '[Errno socket error] [Errno 110] ',
                 )
 
             for err in rerun_errors:
