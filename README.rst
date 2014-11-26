@@ -178,7 +178,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   "...", "bin/instance...", "..."
   10520, "bin/zeo", "ZEO Server (Database)"
   10530, "bin/solr-instance", "Solr instance"
-  10531, "bin/tika-server", "Tika Server"
+  10532, "bin/tika-server", "Tika JAXRS Server"
   10150, "bin/haproxy", "Haproxy (reserved, not installation yet)"
   10199, "bin/supervisord", "Supervisor daemon"
 
@@ -269,8 +269,9 @@ Example:
 Tika server
 ~~~~~~~~~~~
 
-The ``tika-server.cfg`` installs and configures `ftw.tika`_ as daemon, which provides
-document to text transforms (e.g. for fulltext indexing) using `Apache Tika`_.
+The ``tika-jaxrs-server.cfg`` installs and configures `ftw.tika`_, and sets up
+an `Apache Tika`_ JAXRS server as daemon, which provides document to text
+transforms (e.g. for fulltext indexing).
 A ``bin/tika-server`` script is installed and hooked up with supervisor and ``ftw.tika``
 is configured. You just need to install ``ftw.tika`` in ``portal_setup``.
 
@@ -281,7 +282,7 @@ Example:
     [buildout]
     extends =
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/tika-server.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/tika-jaxrs-server.cfg
 
     deployment-number = 05
 
