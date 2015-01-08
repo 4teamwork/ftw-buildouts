@@ -61,6 +61,8 @@ Features:
   ``${buildout:package-name}-manual.pot`` (manually created translations) and
   ``${buildout:package-name}-content.pot`` (translations from `ftw.inflator`_
   initial content).
+- bin/upgrade: `ftw.upgrade <https://github.com/4teamwork/ftw.upgrade>`_ script
+  for managing upgrade steps.
 
 Example usage: add a configuration file to your
 package (``development.cfg``)::
