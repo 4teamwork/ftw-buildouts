@@ -387,53 +387,6 @@
                 <hudson.plugins.claim.ClaimTestDataPublisher plugin="claim@2.2"/>
             </testDataPublishers>
         </hudson.tasks.junit.JUnitResultArchiver>
-        <hudson.plugins.cobertura.CoberturaPublisher plugin="cobertura@1.9">
-            <coberturaReportFile>**/parts/testresults/coverage.xml</coberturaReportFile>
-            <onlyStable>false</onlyStable>
-            <failUnhealthy>false</failUnhealthy>
-            <failUnstable>false</failUnstable>
-            <autoUpdateHealth>false</autoUpdateHealth>
-            <autoUpdateStability>false</autoUpdateStability>
-            <zoomCoverageChart>false</zoomCoverageChart>
-            <failNoReports>false</failNoReports>
-            <healthyTarget>
-                <targets class="enum-map" enum-type="hudson.plugins.cobertura.targets.CoverageMetric">
-                    <entry>
-                        <hudson.plugins.cobertura.targets.CoverageMetric>LINE</hudson.plugins.cobertura.targets.CoverageMetric>
-                        <int>70</int>
-                    </entry>
-                    <entry>
-                        <hudson.plugins.cobertura.targets.CoverageMetric>METHOD</hudson.plugins.cobertura.targets.CoverageMetric>
-                        <int>80</int>
-                    </entry>
-                </targets>
-            </healthyTarget>
-            <unhealthyTarget>
-                <targets class="enum-map" enum-type="hudson.plugins.cobertura.targets.CoverageMetric">
-                    <entry>
-                        <hudson.plugins.cobertura.targets.CoverageMetric>LINE</hudson.plugins.cobertura.targets.CoverageMetric>
-                        <int>0</int>
-                    </entry>
-                    <entry>
-                        <hudson.plugins.cobertura.targets.CoverageMetric>METHOD</hudson.plugins.cobertura.targets.CoverageMetric>
-                        <int>0</int>
-                    </entry>
-                </targets>
-            </unhealthyTarget>
-            <failingTarget>
-                <targets class="enum-map" enum-type="hudson.plugins.cobertura.targets.CoverageMetric">
-                    <entry>
-                        <hudson.plugins.cobertura.targets.CoverageMetric>LINE</hudson.plugins.cobertura.targets.CoverageMetric>
-                        <int>0</int>
-                    </entry>
-                    <entry>
-                        <hudson.plugins.cobertura.targets.CoverageMetric>METHOD</hudson.plugins.cobertura.targets.CoverageMetric>
-                        <int>0</int>
-                    </entry>
-                </targets>
-            </failingTarget>
-            <sourceEncoding>ASCII</sourceEncoding>
-        </hudson.plugins.cobertura.CoberturaPublisher>
         <hudson.tasks.Mailer plugin="mailer@1.4">
             {% if recipients %}
             <recipients>{{ recipients }}</recipients>
