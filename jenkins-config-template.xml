@@ -3,8 +3,8 @@
     <description></description>
     <displayName>{{ display_name }}</displayName>
     <logRotator class="hudson.tasks.LogRotator">
-        <daysToKeep>60</daysToKeep>
-        <numToKeep>100</numToKeep>
+        <daysToKeep>30</daysToKeep>
+        <numToKeep>30</numToKeep>
         <artifactDaysToKeep>10</artifactDaysToKeep>
         <artifactNumToKeep>-1</artifactNumToKeep>
     </logRotator>
