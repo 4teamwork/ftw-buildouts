@@ -378,7 +378,7 @@
                             <max>{{ jenkinscfg.get('pylint_max', 999)}}</max>
                             <unstable>{{ jenkinscfg.get('pylint_unstable', 1000)}}</unstable>
                             <usePattern>false</usePattern>
-                            <pattern>**/parts/testresults/pylint.log</pattern>
+                            <pattern>{{ jenkinscfg.get('pylint_path', '')}}</pattern>
                         </hudson.plugins.violations.TypeConfig>
                     </entry>
                     <entry>
