@@ -11,12 +11,30 @@
     <keepDependencies>false</keepDependencies>
 
     <properties>
+        <hudson.plugins.googlecode.GoogleCodeProjectProperty plugin="googlecode@1.7"/>
         {% if public %}
         <hudson.security.AuthorizationMatrixProperty>
             <permission>hudson.model.Item.Read:anonymous</permission>
         </hudson.security.AuthorizationMatrixProperty>
         {% endif %}
 
+        <jenkins.plugins.slack.SlackNotifier_-SlackJobProperty plugin="slack@1.8">
+            <teamDomain></teamDomain>
+            <token></token>
+            <room></room>
+            <startNotification>false</startNotification>
+            <notifySuccess>false</notifySuccess>
+            <notifyAborted>false</notifyAborted>
+            <notifyNotBuilt>false</notifyNotBuilt>
+            <notifyUnstable>false</notifyUnstable>
+            <notifyFailure>false</notifyFailure>
+            <notifyBackToNormal>false</notifyBackToNormal>
+            <notifyRepeatedFailure>false</notifyRepeatedFailure>
+            <includeTestSummary>false</includeTestSummary>
+            <showCommitList>false</showCommitList>
+            <includeCustomMessage>false</includeCustomMessage>
+            <customMessage></customMessage>
+        </jenkins.plugins.slack.SlackNotifier_-SlackJobProperty>
 
         {% if github_url %}
         <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.5">
@@ -42,6 +60,7 @@
         <disableSubmodules>false</disableSubmodules>
         <recursiveSubmodules>false</recursiveSubmodules>
         <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <gitTool>Default</gitTool>
         <authorOrCommitter>false</authorOrCommitter>
         <clean>false</clean>
         <wipeOutWorkspace>false</wipeOutWorkspace>
@@ -89,7 +108,7 @@
             <healthy></healthy>
             <unHealthy></unHealthy>
             <thresholdLimit>low</thresholdLimit>
-            <pluginName>[TASKS]</pluginName>
+            <pluginName>[TASKS] </pluginName>
             <defaultEncoding></defaultEncoding>
             <canRunOnFailed>true</canRunOnFailed>
             <useDeltaValues>false</useDeltaValues>
@@ -125,7 +144,7 @@
             <healthy></healthy>
             <unHealthy></unHealthy>
             <thresholdLimit>low</thresholdLimit>
-            <pluginName>[WARNINGS]</pluginName>
+            <pluginName>[WARNINGS] </pluginName>
             <defaultEncoding></defaultEncoding>
             <canRunOnFailed>false</canRunOnFailed>
             <useStableBuildAsReference>false</useStableBuildAsReference>
@@ -330,6 +349,17 @@
                         </hudson.plugins.violations.TypeConfig>
                     </entry>
                     <entry>
+                        <string>perlcritic</string>
+                        <hudson.plugins.violations.TypeConfig>
+                            <type>perlcritic</type>
+                            <min>10</min>
+                            <max>999</max>
+                            <unstable>999</unstable>
+                            <usePattern>false</usePattern>
+                            <pattern></pattern>
+                        </hudson.plugins.violations.TypeConfig>
+                    </entry>
+                    <entry>
                         <string>pmd</string>
                         <hudson.plugins.violations.TypeConfig>
                             <type>pmd</type>
@@ -346,7 +376,7 @@
                             <type>pylint</type>
                             <min>{{ jenkinscfg.get('pylint_min', 999)}}</min>
                             <max>{{ jenkinscfg.get('pylint_max', 999)}}</max>
-                            <unstable>{{ jenkinscfg.get('pylint_unstable', 999)}}</unstable>
+                            <unstable>{{ jenkinscfg.get('pylint_unstable', 1000)}}</unstable>
                             <usePattern>false</usePattern>
                             <pattern>**/parts/testresults/pylint.log</pattern>
                         </hudson.plugins.violations.TypeConfig>
@@ -386,6 +416,7 @@
             <testDataPublishers>
                 <hudson.plugins.claim.ClaimTestDataPublisher plugin="claim@2.2"/>
             </testDataPublishers>
+            <healthScaleFactor>1.0</healthScaleFactor>
         </hudson.tasks.junit.JUnitResultArchiver>
         <hudson.tasks.Mailer plugin="mailer@1.4">
             {% if recipients %}
@@ -403,7 +434,6 @@
         {% endif %}
     </publishers>
     <buildWrappers>
-        <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.3"/>
         <org.jvnet.hudson.plugins.port__allocator.PortAllocator plugin="port-allocator@1.5">
             <ports>
                 <org.jvnet.hudson.plugins.port__allocator.DefaultPortType>
@@ -423,5 +453,6 @@
                 </org.jvnet.hudson.plugins.port__allocator.DefaultPortType>
             </ports>
         </org.jvnet.hudson.plugins.port__allocator.PortAllocator>
+        <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.3"/>
     </buildWrappers>
 </project>
