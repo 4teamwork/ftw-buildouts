@@ -5,6 +5,8 @@ This repositories provides some base buildouts to extend for.
 
 It contains buildouts for testing and development as well as for production.
 
+.. contents:: Table of Contents
+
 
 Testing and development
 -----------------------
@@ -289,6 +291,91 @@ Example:
     deployment-number = 05
 
 
+Solr
+~~~~
+
+The solr configurations provide a standard way to install solr,
+based on `collective.solr`_ and `ftw.solr`_.
+
+Standard installation
++++++++++++++++++++++
+
+For production:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/solr.cfg
+
+    deployment-number = 05
+
+For local development:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development-solr.cfg
+
+
+Custom core configuration
++++++++++++++++++++++++++
+
+It is possible to change the solr core configuration or add additional cores.
+Take a look at the ``solr-core-template`` section in the ``solr-base.cfg``
+for the options you may change.
+
+For having the changes both, in production and development, the standard way to
+do customizations is to add a ``solr.cfg`` in your project repository and extend
+it both in development and in production buildout configurations.
+The ``solr.cfg`` is a configuration extension and should not extend anything.
+
+Example local ``solr.cfg``:
+
+.. code:: ini
+
+    [solr-settings]
+    solr-cores =
+        main-core
+        another-core
+    solr-default-core = main-core
+
+    [main-core]
+    <= solr-core-template
+    max-num-results = 2000
+
+    [anothre-core]
+    <= solr-core-template
+    max-num-results = 500
+
+
+Example ``production-*.cfg``:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/solr.cfg
+        solr.cfg
+
+    deployment-number = 05
+
+Example ``development.cfg``:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development-solr.cfg
+        solr.cfg
+
+
+
 Warmup
 ~~~~~~
 
@@ -378,3 +465,5 @@ will be included in the generated warmup configuration file.
 .. _ftw.maintenanceserver: https://github.com/4teamwork/ftw.maintenanceserver
 .. _Apache Tika: http://tika.apache.org/
 .. _collective.warmup: https://github.com/collective/collective.warmup
+.. _ftw.solr: https://github.com/4teamwork/ftw.solr
+.. _collective.solr: https://github.com/collective/collective.solr
