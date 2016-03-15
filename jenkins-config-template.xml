@@ -63,7 +63,7 @@
         <gitTool>Default</gitTool>
         <authorOrCommitter>false</authorOrCommitter>
         <clean>false</clean>
-        <wipeOutWorkspace>false</wipeOutWorkspace>
+        <wipeOutWorkspace>true</wipeOutWorkspace>
         <pruneBranches>false</pruneBranches>
         <remotePoll>false</remotePoll>
         <ignoreNotifyCommit>false</ignoreNotifyCommit>
