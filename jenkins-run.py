@@ -85,6 +85,18 @@ class Main(object):
         if not os.path.isfile(os.path.join('bin', 'develop')):
             return
 
+        # Workaround for making sure that we remove the sources
+        # when the fork (git remote) has changed and therefore
+        # we need to clone a new version.
+        # The problem is that bin/develop exits with "0" even
+        # though there is an error.
+        with tempfile.NamedTemporaryFile() as outfile:
+            if runcmd('bin/develop up', teefile=outfile) == 0:
+                outfile.seek(0)
+                if 'ERROR: ' in outfile.read():
+                    runcmd('rm -rf src')
+                return
+
         runcmd_with_retries(
             'bin/develop up',
             lambda errors: True,
