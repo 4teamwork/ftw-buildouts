@@ -191,7 +191,7 @@ Buildout configuration
 ~~~~~~~~~~~~~~~~~~~~~~
 
 There is a variety of options which can be configured in the buildout.
-Here is a full example, below is the detail explenation:
+Here is a full example, below is the detail explanation:
 
 .. code:: ini
 
@@ -214,6 +214,7 @@ Here is a full example, below is the detail explenation:
     supervisor-email = zope@localhost
     supervisor-memmon-options = -a ${buildout:supervisor-memmon-size} -m ${buildout:supervisor-email}
     supervisor-httpok-options = -t ${buildout:supervisor-httpok-timeout} -m ${buildout:supervisor-email}
+    supervisor-httpok-view =
 
     os-user = zope
 
@@ -242,6 +243,9 @@ Details:
 - ``supervisor-memmon-options`` - Allows to change or extend the memmon configuration options.
 - ``supervisor-httpok-options`` - Allows to change or extend the httpok settings per instance. The process name
   and the http address are added per ZEO client.
+- ``supervisor-httpok-view`` - Allows to specify a view name (or any path relative to the Zope application root)
+  that will be appended to the base URL for the instance, in order to build the full health check URL for the
+  HttpOk plugin. Must return 200 OK to indicate the instance is healthy.
 - ``os-user`` - The operating system user is used by supervisor, which makes sure
   that the processes managed by supervisor are started with this user.
   It defaults to ``zope``.
