@@ -191,7 +191,7 @@ Buildout configuration
 ~~~~~~~~~~~~~~~~~~~~~~
 
 There is a variety of options which can be configured in the buildout.
-Here is a full example, below is the detail explenation:
+Here is a full example, below is the detail explanation:
 
 .. code:: ini
 
@@ -209,11 +209,12 @@ Here is a full example, below is the detail explenation:
         mywebsite
 
     supervisor-client-startsecs = 60
-    supervisor-memmon-size = 1200MB
-    supervisor-httpok-timeout = 40
     supervisor-email = zope@localhost
+    supervisor-memmon-size = 1200MB
     supervisor-memmon-options = -a ${buildout:supervisor-memmon-size} -m ${buildout:supervisor-email}
+    supervisor-httpok-timeout = 40
     supervisor-httpok-options = -t ${buildout:supervisor-httpok-timeout} -m ${buildout:supervisor-email}
+    supervisor-httpok-view =
 
     os-user = zope
 
@@ -235,13 +236,16 @@ Details:
 - ``supervisor-client-startsecs`` - The time in seconds it takes to start the ZEO client until Plone is ready
   to handle requests. This depends on your server and how big your database is. If it is too low, HttpOk will
   loop-restart the zeo clients when you restart all zeo clients at the same time and the server has load.
+- ``supervisor-email`` - The email address to notification messages of httpok and memmon are sent.
 - ``supervisor-memmon-size`` - The size of RAM each ZEO client can use. If it uses more, memmon will restart it.
+- ``supervisor-memmon-options`` - Allows to change or extend the memmon configuration options.
 - ``supervisor-httpok-timeout`` - The number of seconds that httpok should wait for a response to the
   HTTP request before timing out.
-- ``supervisor-email`` - The email address to notification messages of httpok and memmon are sent.
-- ``supervisor-memmon-options`` - Allows to change or extend the memmon configuration options.
 - ``supervisor-httpok-options`` - Allows to change or extend the httpok settings per instance. The process name
   and the http address are added per ZEO client.
+- ``supervisor-httpok-view`` - Allows to specify a view name (or any path relative to the Zope application root)
+  that will be appended to the base URL for the instance, in order to build the full health check URL for the
+  HttpOk plugin. Must return 200 OK to indicate the instance is healthy.
 - ``os-user`` - The operating system user is used by supervisor, which makes sure
   that the processes managed by supervisor are started with this user.
   It defaults to ``zope``.
