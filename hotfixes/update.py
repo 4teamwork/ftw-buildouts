@@ -12,6 +12,7 @@ HOTFIX_VERSIONS = {}
 
 BLACKLIST = (
     'plone4.csrffixes',
+    'Products.PloneHotfix20160830',
 )
 
 
