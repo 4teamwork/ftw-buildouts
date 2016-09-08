@@ -385,7 +385,7 @@ Redis
 
 In the ``redis`` folder there are standard buildouts for installing a dedicated
 redis installation within the buildout directory.
-You can simple extend ``redis/development.cfg`` or ``redis/production.cfg``,
+You can simply extend ``redis/development.cfg`` or ``redis/production.cfg``,
 depending on your base config file, and then choose the redis version with
 e.g. ``redis/3.2.3.cfg``.
 
