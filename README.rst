@@ -416,6 +416,70 @@ Local development buildout example:
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/3.2.3.cfg
 
 
+collective.taskqueue
+~~~~~~~~~~~~~~~~~~~~
+
+When using `collective.taskqueue`_, you need to configure a queue and a
+queue-server in your buildout.
+For convenience there are some standard queue configuration buildouts which simply
+can be exended.
+
+Local volatile queue
+++++++++++++++++++++
+
+The local volatile queue is an in-memory queue which will be lost when terminating
+a process. If you do important stuff you should consider installing redis.
+
+For production:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/taskqueue/volatile-production.cfg
+
+For development:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        test-plone-4.3.x.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/taskqueue/volatile-development.cfg
+
+
+Redis queue
++++++++++++
+
+Redis can be used as queue backend.
+By default, redis is not configured to really persist everything.
+With the standard configuration provided in ``ftw-buildouts``, redis is set up
+and configured to persist the queue.
+
+For production:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/taskqueue/redis-production.cfg
+
+For development:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        test-plone-4.3.x.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/taskqueue/redis-development.cfg
+
+
 Warmup
 ~~~~~~
 
@@ -507,3 +571,4 @@ will be included in the generated warmup configuration file.
 .. _collective.warmup: https://github.com/collective/collective.warmup
 .. _ftw.solr: https://github.com/4teamwork/ftw.solr
 .. _collective.solr: https://github.com/collective/collective.solr
+.. _collective.taskqueue: https://github.com/collective/collective.taskqueue
