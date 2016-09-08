@@ -178,6 +178,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10503, "bin/instance3", "Additional ZEO client (optional)"
   10504, "bin/instance4", "Additional ZEO client (optional)"
   10505, "bin/instance5", "Additional ZEO client (optional)"
+  10510, "bin/instancepub", "Additional ZEO client for ftw.publisher (optional)"
   10519, "bin/maintenance", "Maintenance HTTP Server (ftw.maintenanceserver)"
   "...", "bin/instance...", "..."
   10520, "bin/zeo", "ZEO Server (Database)"
