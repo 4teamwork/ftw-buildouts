@@ -214,9 +214,11 @@ Here is a full example, below is the detail explanation:
     supervisor-email = zope@localhost
     supervisor-memmon-size = 1200MB
     supervisor-memmon-options = -a ${buildout:supervisor-memmon-size} -m ${buildout:supervisor-email}
+    supervisor-memmon-autostart = true
     supervisor-httpok-timeout = 40
     supervisor-httpok-options = -t ${buildout:supervisor-httpok-timeout} -m ${buildout:supervisor-email}
     supervisor-httpok-view =
+    supervisor-httpok-autostart = true
 
     os-user = zope
 
@@ -241,6 +243,7 @@ Details:
 - ``supervisor-email`` - The email address to notification messages of httpok and memmon are sent.
 - ``supervisor-memmon-size`` - The size of RAM each ZEO client can use. If it uses more, memmon will restart it.
 - ``supervisor-memmon-options`` - Allows to change or extend the memmon configuration options.
+- ``supervisor-memmon-autostart`` - Start memmon when starting the supervisor daemon. Default: ``true``.
 - ``supervisor-httpok-timeout`` - The number of seconds that httpok should wait for a response to the
   HTTP request before timing out.
 - ``supervisor-httpok-options`` - Allows to change or extend the httpok settings per instance. The process name
@@ -248,6 +251,7 @@ Details:
 - ``supervisor-httpok-view`` - Allows to specify a view name (or any path relative to the Zope application root)
   that will be appended to the base URL for the instance, in order to build the full health check URL for the
   HttpOk plugin. Must return 200 OK to indicate the instance is healthy.
+- ``supervisor-httpok-autostart`` - Start HttpOk when starting the supervisor daemon. Default: ``true``.
 - ``os-user`` - The operating system user is used by supervisor, which makes sure
   that the processes managed by supervisor are started with this user.
   It defaults to ``zope``.
