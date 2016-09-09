@@ -184,6 +184,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10520, "bin/zeo", "ZEO Server (Database)"
   10530, "bin/solr-instance", "Solr instance"
   10532, "bin/tika-server", "Tika JAXRS Server"
+  10533, "bin/redis", "Redis instance"
   10150, "bin/haproxy", "Haproxy (reserved, not installation yet)"
   10199, "bin/supervisord", "Supervisor daemon"
 
@@ -379,6 +380,36 @@ Example ``development.cfg``:
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development-solr.cfg
         solr.cfg
 
+
+Redis
+~~~~~
+
+In the ``redis`` folder there are standard buildouts for installing a dedicated
+redis installation within the buildout directory.
+You can simply extend ``redis/development.cfg`` or ``redis/production.cfg``,
+depending on your base config file, and then choose the redis version with
+e.g. ``redis/3.2.3.cfg``.
+
+Production buildout example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/3.2.3.cfg
+
+Local development buildout example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        test-plone-4.3.7.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/3.2.3.cfg
 
 
 Warmup
