@@ -462,6 +462,7 @@ For production:
     extends =
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/redis/3.2.3.cfg
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/taskqueue/redis-production.cfg
 
 For development:
