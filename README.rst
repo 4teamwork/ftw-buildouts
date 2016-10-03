@@ -185,8 +185,10 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10530, "bin/solr-instance", "Solr instance"
   10532, "bin/tika-server", "Tika JAXRS Server"
   10533, "bin/redis", "Redis instance"
-  10150, "bin/haproxy", "Haproxy (reserved, not installation yet)"
-  10199, "bin/supervisord", "Supervisor daemon"
+  10550, "bin/haproxy", "Haproxy (reserved, not installation yet)"
+  10599, "bin/supervisord", "Supervisor daemon"
+  8800, "HaProxy", "HaProxy status page (Server-wide)"
+  8801, "HaProxy", "HaProxy stats socket (Server-wide)"
 
 
 Buildout configuration
@@ -254,6 +256,57 @@ Details:
 - ``plone-languages`` - The short names of the languages which are loaded by Zope.
 - ``zcml-additional-fragments`` - Define additional zcml to load. See the `Additional ZCML`_ section.
 
+
+HaProxy / Supervisor integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `supervisor-haproxy`_ event listener tells haproxy to remove backends / add
+backends to the load balancing when supervisor detects instances to be stopping
+and starting.
+
+Example configuration:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zeoclients/3.c
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/haproxy.cfg
+
+    deployment-number = 05
+
+    # supervisor-haproxy-backend = plone${buildout:deployment-number}
+    # supervisor-haproxy-socket = tcp://localhost:8801
+
+
+The ``haproxy.cfg`` preconfigures the supervisor event listener when standardized
+names in HaProxy. If you do not follow our naming standards you may want to
+configure the event listener manually or by modifying the ``supervisor-haproxy-*``
+configurations in the ``[buildout]``-section.
+
+Example HaProxy configuration:
+
+.. code:: ini
+
+    global
+       stats socket ipv4@0.0.0.0:8801 level admin
+
+    defaults
+        mode http
+        timeout connect 10s
+        timeout client 5m
+        timeout server 5m
+
+
+    frontend plone04
+        bind *:10450
+        default_backend plone04
+
+    backend plone04
+        server plone0401 localhost:10401 cookie p01 check inter 10s downinter 15s maxconn 5 rise 1 slowstart 60s
+        server plone0402 localhost:10402 cookie p02 check inter 10s downinter 15s maxconn 5 rise 1 slowstart 60s
+        server plone0403 localhost:10403 cookie p03 check inter 10s downinter 15s maxconn 5 rise 1 slowstart 60s
 
 
 Maintenance HTTP Server
@@ -569,3 +622,4 @@ will be included in the generated warmup configuration file.
 .. _ftw.solr: https://github.com/4teamwork/ftw.solr
 .. _collective.solr: https://github.com/collective/collective.solr
 .. _collective.taskqueue: https://github.com/collective/collective.taskqueue
+.. _supervisor-haproxy: https://pypi.python.org/pypi/supervisor-haproxy
