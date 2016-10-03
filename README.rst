@@ -257,7 +257,7 @@ Details:
 - ``zcml-additional-fragments`` - Define additional zcml to load. See the `Additional ZCML`_ section.
 
 
-HaProxy / Supervisor integration
+HAProxy / Supervisor integration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The `supervisor-haproxy`_ event listener tells haproxy to remove backends / add
@@ -271,7 +271,7 @@ Example configuration:
     [buildout]
     extends =
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
-        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zeoclients/3.c
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zeoclients/3.cfg
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/haproxy.cfg
 
     deployment-number = 05
@@ -280,10 +280,10 @@ Example configuration:
     # supervisor-haproxy-socket = tcp://localhost:8801
 
 
-The ``haproxy.cfg`` preconfigures the supervisor event listener when standardized
-names in HaProxy. If you do not follow our naming standards you may want to
-configure the event listener manually or by modifying the ``supervisor-haproxy-*``
-configurations in the ``[buildout]``-section.
+The ``haproxy.cfg`` works well when using names in HAProxy such as "plone05" for
+the backend and "plone0502" for the servers (=zope instances).
+If you name backends and servers differently you may want to configure the name
+with ``supervisor-haproxy-backend`` variable.
 
 Example HaProxy configuration:
 
