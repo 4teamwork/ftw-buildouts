@@ -607,6 +607,38 @@ The ``warmup-configuration:urls`` and ``warmup-configuration:url-sections`` opti
 will be included in the generated warmup configuration file.
 
 
+Chameleon
+~~~~~~~~~
+
+The ``chameleon.cfg`` enables the Chameleon templating engine with our custom
+integration `ftw.chameleon`_ and provides default configuration for use in
+production and development.
+
+If you want to run your tests with chameleon, you should add ``ftw.chameleon``
+to the ``install_requires`` list in your ``setup.py``.
+
+Production example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/chameleon.cfg
+
+    deployment-number = 05
+
+
+Development example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/chameleon.cfg
+
+
 
 .. _coverage: http://pypi.python.org/pypi/coverage
 .. _Cobertura Jenkins Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
@@ -623,3 +655,4 @@ will be included in the generated warmup configuration file.
 .. _collective.solr: https://github.com/collective/collective.solr
 .. _collective.taskqueue: https://github.com/collective/collective.taskqueue
 .. _supervisor-haproxy: https://pypi.python.org/pypi/supervisor-haproxy
+.. _ftw.chameleon: https://github.com/4teamwork/ftw.chameleon
