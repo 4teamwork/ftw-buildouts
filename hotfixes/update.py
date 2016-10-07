@@ -31,7 +31,7 @@ def update_hotfixes_files():
 
         with open(os.path.join(dirpath, filename), 'w+') as fileio:
             fileio.write('[buildout]\n\n')
-            fileio.write('instance-eggs +=\n')
+            fileio.write('hotfix-eggs =\n')
             for package in map(itemgetter('package'), proposed):
                 fileio.write('    {}\n'.format(package))
 
