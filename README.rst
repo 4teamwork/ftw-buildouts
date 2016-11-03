@@ -433,6 +433,16 @@ Example ``development.cfg``:
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/plone-development-solr.cfg
         solr.cfg
 
+Custom standard solr config templates
++++++++++++++++++++++++++++++++++++++
+
+You can choose the solr config template with the ``solr-template-name`` variable in solr-settings.
+
+Currently there are two solr4 templlates:
+
+- 01_original.xml.tmpl --> Copy of solr condig template from the recipe.
+- 02_spellchecker.xml.tmpl (Default) --> Includes spellcher support for multi shards setup.
+
 
 Redis
 ~~~~~
