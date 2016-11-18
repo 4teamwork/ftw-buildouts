@@ -639,6 +639,47 @@ Development example:
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/chameleon.cfg
 
 
+Slack
+~~~~~
+
+It is often useful to send notifications to a slack channel when certain things happen.
+For example if you run a maintenance job you may want to receive a notification when it is finished.
+The slacker config just installs a simple script for slacking messages.
+
+- `create a Slack webhook <https://my.slack.com/services/new/incoming-webhook/>`_.
+- update your buildout:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/slacker.cfg
+
+    slack-webhook = https://hooks.slack.com/services/111/222/333
+    deployment-number = 05
+
+- send messsages:
+
+.. code:: sh
+
+  $ ./bin/slacker -t "Hello World"
+  $ ./bin/slacker -t "Done" -u "migration-bot" -i ":robot:" -c "myproject-migration"
+  $ echo "all done" | ./bin/slacker -s
+  $ echo '{"text": "Important things", "icon_emoji": "monkey_face"}' | ./bin/slacker -s -r
+
+Options:
+
+.. code::
+
+  -t "Message, may contain emojis :+1:"
+  -u "user name, must not be registered"
+  -i ":smile:"
+  -c "channel"
+  -s read stdin
+  -r text is raw json
+
+
 
 .. _coverage: http://pypi.python.org/pypi/coverage
 .. _Cobertura Jenkins Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
