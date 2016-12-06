@@ -350,6 +350,36 @@ Example:
     deployment-number = 05
 
 
+Server-wide tika deployment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When having multiple Plone installations on the same server, it is effient to
+only use one tika server::
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/tika-jaxrs-standalone.cfg
+        versions.cfg
+
+    deployment-number = 99
+
+
+This sets up a complete standalone deployment with a supervisor and a memmon.
+In order to use that in the Plone deployments, just extend the "remote" config::
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/tika-jaxrs-remote.cfg
+
+    deployment-number = 05
+    tika-deployment-number = 99
+
+
 Solr
 ~~~~
 
