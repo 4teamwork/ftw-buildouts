@@ -354,7 +354,7 @@ Server-wide tika deployment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When having multiple Plone installations on the same server, it is effient to
-only use one tika server::
+only use one tika server:
 
 .. code:: ini
 
@@ -367,7 +367,7 @@ only use one tika server::
 
 
 This sets up a complete standalone deployment with a supervisor and a memmon.
-In order to use that in the Plone deployments, just extend the "remote" config::
+In order to use that in the Plone deployments, just extend the "remote" config:
 
 .. code:: ini
 
