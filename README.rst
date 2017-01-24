@@ -182,6 +182,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10519, "bin/maintenance", "Maintenance HTTP Server (ftw.maintenanceserver)"
   "...", "bin/instance...", "..."
   10520, "bin/zeo", "ZEO Server (Database)"
+  10521, "bin/zeo", "ZRS Replication Port"
   10530, "bin/solr-instance", "Solr instance"
   10532, "bin/tika-server", "Tika JAXRS Server"
   10533, "bin/redis", "Redis instance"
@@ -327,6 +328,40 @@ Example:
         https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/maintenance-server.cfg
 
     deployment-number = 05
+
+
+ZODB Replicated Storage (ZRS)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Including ``zrs-primary.cfg`` configures the ZEO server as primary storage listening
+on port ``1XX21``. 
+
+Example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zrs-primary.cfg
+
+    deployment-number = 05
+
+Including ``zrs-secondary.cfg`` configures the ZEO server as a secondary storage replicating
+from the storage given in the option ``zrs-replicate-from`` in the ``buildout`` part. In addition
+ZEO clients are configured as read-only.
+
+Example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zrs-secondary.cfg
+
+    deployment-number = 05
+    zrs-replicate-from = primaryhost.net:10121
 
 
 Tika server
