@@ -15,6 +15,16 @@ BLACKLIST = (
     'Products.PloneHotfix20160830',
 )
 
+STATIC_VERSIONS_TEXT = '''
+
+# ``elementtree`` is included in Python, therefore we do not
+# want to install it.
+# We supply a version pin for a fake / hollow elementtree egg.
+# - http://psc.4teamwork.ch/dist/elementtree
+# - https://github.com/4teamwork/hollow-elementtree
+elementtree = hollow
+'''
+
 
 def update_hotfixes_files():
     hotfixes = load_hotfixes()
@@ -39,6 +49,8 @@ def update_hotfixes_files():
             for package in map(itemgetter('package'), proposed):
                 hotfix_version = get_hotfix_version(package)
                 fileio.write('{} = {}\n'.format(package, hotfix_version))
+
+            fileio.write(STATIC_VERSIONS_TEXT)
 
 
 def load_hotfixes():
