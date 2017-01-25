@@ -15,6 +15,13 @@ BLACKLIST = (
     'Products.PloneHotfix20160830',
 )
 
+STATIC_VERSIONS_TEXT = '''
+# Use latest ``six`` version in order to avoid version conflict
+# since ``setuptools`` requires the latest ``six`` version but
+# older Plone KGS pin older ``six`` versions.
+six = 1.10.0
+'''
+
 
 def update_hotfixes_files():
     hotfixes = load_hotfixes()
@@ -39,6 +46,8 @@ def update_hotfixes_files():
             for package in map(itemgetter('package'), proposed):
                 hotfix_version = get_hotfix_version(package)
                 fileio.write('{} = {}\n'.format(package, hotfix_version))
+
+            fileio.write(STATIC_VERSIONS_TEXT)
 
 
 def load_hotfixes():
