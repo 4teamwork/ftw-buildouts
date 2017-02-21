@@ -78,7 +78,7 @@ def requirement_filter(plone_version):
     def required(hotfix):
         for first, last in hotfix.get('required_for_plone'):
             first = pkg_resources.parse_version(first)
-            last = pkg_resources.parse_version(last)
+            last = pkg_resources.parse_version(last.replace('.??', '.99'))
             if first <= plone_version <= last:
                 return True
 
