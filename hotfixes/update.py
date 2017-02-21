@@ -12,7 +12,6 @@ HOTFIX_VERSIONS = {}
 
 BLACKLIST = (
     'plone4.csrffixes',
-    'Products.PloneHotfix20160830',
 )
 
 STATIC_VERSIONS_TEXT = '''
