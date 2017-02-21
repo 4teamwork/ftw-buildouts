@@ -1,0 +1,227 @@
+#!/usr/bin/env python
+
+import imp
+import os
+import sys
+import tempfile
+
+# Load sys.path from zopepy
+ori_args = sys.argv[:]
+with tempfile.NamedTemporaryFile() as empty_file:
+    sys.argv[1:] = [empty_file.name]
+    imp.load_source('zopepy', os.path.join(os.path.dirname(__file__), 'zopepy'))
+    sys.argv = ori_args
+
+
+from lxml import etree
+from StringIO import StringIO
+import argparse
+import difflib
+import re
+
+
+XML_CHILD_INDENT = 2
+XML_ATTR_INDENT = 4
+
+XML_ATTRIBUTES_ALWAYS_ONELINE = (
+    'alias',
+    'hidden',
+    'include',
+    'index',
+    'layer',
+    'object',
+    'order',
+    'permission',
+    'property',
+    'viewlet',
+)
+
+XML_ATTRIBUTES_ALWAYS_MULTILINE = (
+    'layer',
+    'configlet',
+)
+
+
+class Indenter(object):
+
+    def __call__(self, paths):
+        map(self.format_file_inplace, paths)
+
+    def format_file_inplace(self, path):
+        with open(path, 'r') as fio:
+            original_xml = fio.read()
+
+        new_xml = self.format_xml_string(original_xml)
+        print '>', path
+        with open(path, 'w') as fio:
+            fio.write(new_xml.rstrip() + '\n')
+
+    def format_xml_string(self, original_xml):
+        xml_string = self.escape_newlines_in_attribute_values(original_xml)
+        xmldoc = etree.fromstring(xml_string)
+        self.set_indentation(xmldoc)
+        new_xml = etree.tostring(xmldoc)
+        new_xml = self.indent_attributes(new_xml)
+        new_xml = self.add_space_betweeen_attributes_and_slash(new_xml)
+        new_xml = self.unescape_and_reindent_newlines_in_attr_values(new_xml)
+        self.assert_unchanged(original_xml, new_xml)
+        return new_xml
+
+    def set_indentation(self, elem, level=0):
+        """Recursively set the indentation of the tag `elem` by
+        adding newlines and spaces to text and tail.
+        """
+
+        def indent(text, level):
+            text = (text or '').replace('\t', '    ').rstrip(' ')
+            if '\n' not in text:
+                text += '\n'
+            return text + (level * XML_CHILD_INDENT * ' ')
+
+        if len(elem):
+            elem.text = indent(elem.text, level + 1)
+            elem.tail = indent(elem.tail, level)
+
+            for child in elem:
+                self.set_indentation(child, level + 1)
+
+            child.tail = indent(child.tail, level)
+        elif level:
+            elem.tail = indent(elem.tail, level)
+
+    def indent_attributes(self, xml_string):
+        """Indent attributes of nodes so that the attributes
+        are formated each on a new line.
+        Wheter this is done or not depenends on the node type
+        and the amount of attributes it has.
+        """
+
+        def indent_match(match):
+            prefix, indent, start, attributes, end = match.groups()
+            attr_prefix = '\n' + indent + (' ' * XML_ATTR_INDENT)
+            attr_regex = re.compile(r'([^ ]*="[^"]*") ')
+            tagname = start.lstrip('<').strip()
+
+            if tagname in XML_ATTRIBUTES_ALWAYS_ONELINE:
+                apply_multiline = False
+            elif tagname in XML_ATTRIBUTES_ALWAYS_MULTILINE:
+                apply_multiline = True
+            else:
+                apply_multiline = len(attr_regex.findall(attributes)) > 0
+
+            if apply_multiline:
+                attributes = attr_prefix + attr_regex.sub(
+                    '\g<1>' + attr_prefix, attributes)
+                start = start.rstrip(' ')
+            return ''.join((prefix, indent, start, attributes, end))
+
+        return re.sub('(\n?)( *)(<[^ /!>]+ )([^>]*)(\/?>)',
+                      indent_match, xml_string)
+
+    def escape_newlines_in_attribute_values(self, xml_string):
+        """Excape newlines with "&#10;" within an XML document.
+        """
+
+        def callback(node_info, attr_info):
+            attr_info['value'] = re.sub(r'\n +', '&#10;', attr_info['value'])
+
+        return self.modify_attribute_value(xml_string, callback)
+
+    def unescape_and_reindent_newlines_in_attr_values(self, xml_string):
+        """Replace "&#10;" back to "\n" and fix the indenting so that the
+        XML looks nice and shiny.
+        """
+
+        def callback(node_info, attr_info):
+            if node_info['attrstart'][0] == '\n':
+                indent = (node_info['attrstart']
+                          + (len(attr_info['name']) * ' ')
+                          + ' ')
+            else:
+                indent = ('\n'
+                          + node_info['attrstart']
+                          + (len(node_info['tagstart']) * ' ')
+                          + (len(attr_info['name']) * ' ')
+                          + '   ')
+
+            attr_info['value'] = attr_info['value'].replace(
+                r'&#10;', indent)
+
+        return self.modify_attribute_value(xml_string, callback)
+
+    def add_space_betweeen_attributes_and_slash(self, xml_string):
+        """Add a space or newline between attributes and the ending slash in
+        standalone tags.
+        """
+
+        def callback(node_info):
+            if node_info['tagend'].startswith('/'):
+                if node_info['attrstart'].startswith('\n'):
+                    node_info['tagend'] = (node_info['attrstart']
+                                           + node_info['tagend'])
+                else:
+                    node_info['tagend'] = ' ' + node_info['tagend']
+
+        return self.modify_node(xml_string, callback)
+
+    def modify_attribute_value(self, xml_string, modifier_callback):
+        """Modify the value of an attribute with a callback.
+        """
+
+        def node_callback(node_info):
+            def replace_attribute(match):
+                regex_groups = ('name', 'quotestart', 'value', 'quoteend')
+                attr_info = dict(zip(regex_groups, match.groups()))
+                modifier_callback(node_info, attr_info)
+                return ''.join([attr_info[name] for name in regex_groups])
+
+            node_info['attributes'] = re.sub(
+                r'([^ ]*=)(")([^"]*)(")',
+                replace_attribute,
+                node_info['attributes'])
+
+        return self.modify_node(xml_string, node_callback)
+
+    def modify_node(self, xml_string, modifier_callback):
+        """Modify string content directly on a raw XML document.
+        This allows to do things such as modify the indenting.
+        """
+
+        def replace(match):
+            regex_groups = ('prefix', 'indent', 'tagstart',
+                            'attrstart', 'attributes', 'tagend')
+            node_info = dict(zip(regex_groups, match.groups()))
+            modifier_callback(node_info)
+            return ''.join([node_info[name] for name in regex_groups])
+
+        return re.sub('(\n?)( *)(<[^ /!>\n]+)(\s*)([^>]*?)(\/?>)',
+                      replace, xml_string)
+
+    def assert_unchanged(self, expected, got):
+        """Make sure that the two XML documents have the same meaning,
+        but ignore whitespace.
+        """
+
+        def c14n(xmlstring):
+            xmlstring = self.escape_newlines_in_attribute_values(xmlstring)
+            output = StringIO()
+            parser = etree.XMLParser(remove_blank_text=True)
+            etree.parse(StringIO(xmlstring), parser).write_c14n(output)
+            output.seek(0)
+            return etree.tostring(etree.parse(output), pretty_print=True)
+
+        expected = c14n(expected)
+        got = c14n(got)
+        message = 'Unexpected difference detected when prettyfing XML'
+        assert got == expected, \
+            message + '\n\n' + ''.join((difflib.ndiff(expected.splitlines(1),
+                                                      got.splitlines(1))))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Auto-format an XML file inplace.')
+    parser.add_argument('paths', metavar='path', nargs='+',
+                        help='XML file to format.')
+
+    args = parser.parse_args()
+    Indenter()(args.paths)
