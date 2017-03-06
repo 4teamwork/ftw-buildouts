@@ -45,16 +45,19 @@ XML_ATTRIBUTES_ALWAYS_MULTILINE = (
 class Indenter(object):
 
     def __call__(self, paths):
-        map(self.format_file_inplace, paths)
+        return map(self.format_file_inplace, paths)
 
     def format_file_inplace(self, path):
         with open(path, 'r') as fio:
             original_xml = fio.read()
 
-        new_xml = self.format_xml_string(original_xml)
-        print '>', path
+        new_xml = self.format_xml_string(original_xml).rstrip() + '\n'
+        is_unchanged = new_xml == original_xml
+        print '>', path, '({0})'.format(
+            'unchanged' if is_unchanged else 'changed')
         with open(path, 'w') as fio:
-            fio.write(new_xml.rstrip() + '\n')
+            fio.write(new_xml)
+        return is_unchanged
 
     def format_xml_string(self, original_xml):
         xml_string = self.escape_newlines_in_attribute_values(original_xml)
@@ -222,6 +225,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Auto-format an XML file inplace.')
     parser.add_argument('paths', metavar='path', nargs='+',
                         help='XML file to format.')
+    parser.add_argument('--check', dest='check', action='store_true',
+                        help='Enable check mode. Will exit with an error '
+                             'state if a file was changed.')
 
     args = parser.parse_args()
-    Indenter()(args.paths)
+    unchanged = Indenter()(args.paths)
+    if args.check and not all(unchanged):
+        sys.exit(1)
