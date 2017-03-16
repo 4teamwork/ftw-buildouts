@@ -2,16 +2,19 @@
 
 import imp
 import os
+import pkg_resources
 import sys
 import tempfile
 
-# Load sys.path from zopepy
-ori_args = sys.argv[:]
-with tempfile.NamedTemporaryFile() as empty_file:
-    sys.argv[1:] = [empty_file.name]
-    imp.load_source('zopepy', os.path.join(os.path.dirname(__file__), 'zopepy'))
-    sys.argv = ori_args
-
+try:
+    pkg_resources.get_distribution('lxml')
+except pkg_resources.DistributionNotFound:
+    # Load sys.path from zopepy
+    ori_args = sys.argv[:]
+    with tempfile.NamedTemporaryFile() as empty_file:
+        sys.argv[1:] = [empty_file.name]
+        imp.load_source('zopepy', os.path.join(os.path.dirname(__file__), 'zopepy'))
+        sys.argv = ori_args
 
 from lxml import etree
 from StringIO import StringIO
