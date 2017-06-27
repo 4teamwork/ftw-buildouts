@@ -330,11 +330,44 @@ Example:
     deployment-number = 05
 
 
+Relstorage
+~~~~~~~~~~
+When including ``production-relstorage.cfg`` as the example shows below, no
+ZEO Server and filestorage will be installed. Besides that, the relstorage will
+be configured according to the relstorage buildout variables. The Following
+variables have to be defined in the buildout section:
+
+- relstorage-type
+- relstorage-user
+- relstorage-pw
+- relstorage-shared-blob-dir
+- relstorage-commit-lock-id
+- relstorage-blob-cache-size
+
+
+Example:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production-relstorage.cfg
+
+    relstorage-type = oracle
+    relstorage-user = user1
+    relstorage-pw = secure
+    relstorage-blob-cache-size = 1gb
+    relstorage-shared-blob-dir = false
+    relstorage-commit-lock-id = 7
+
+
+
 ZODB Replicated Storage (ZRS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Including ``zrs-primary.cfg`` configures the ZEO server as primary storage listening
-on port ``1XX21``. 
+on port ``1XX21``.
 
 Example:
 
