@@ -37,11 +37,14 @@ XML_ATTRIBUTES_ALWAYS_ONELINE = (
     'permission',
     'property',
     'viewlet',
+    'lawgiver:role',
 )
 
 XML_ATTRIBUTES_ALWAYS_MULTILINE = (
     'layer',
     'configlet',
+    'lawgiver:map_permissions',
+    'lawgiver:ignore',
 )
 
 
