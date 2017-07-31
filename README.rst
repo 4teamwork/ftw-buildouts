@@ -277,6 +277,7 @@ Example configuration:
 
     deployment-number = 05
 
+    # If you want to change the default configuration, copy and change the settings below:
     # supervisor-haproxy-backend = plone${buildout:deployment-number}
     # supervisor-haproxy-socket = tcp://localhost:8801
 
