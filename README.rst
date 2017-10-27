@@ -780,10 +780,10 @@ Options:
 
 
 
-.. _coverage: http://pypi.python.org/pypi/coverage
+.. _coverage: https://pypi.python.org/pypi/coverage
 .. _Cobertura Jenkins Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
 .. _Warnings Plugin: https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin
-.. _omelette: http://pypi.python.org/pypi/collective.recipe.omelette
+.. _omelette: https://pypi.python.org/pypi/collective.recipe.omelette
 .. _PhantomJS: http://phantomjs.org/
 .. _ftw.recipe.deployment: https://github.com/4teamwork/ftw.recipe.deployment
 .. _ftw.inflator: https://github.com/4teamwork/ftw.inflator

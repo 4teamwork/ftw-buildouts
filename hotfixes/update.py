@@ -65,7 +65,7 @@ def get_hotfix_version(package):
     if package in HOTFIX_VERSIONS:
         return HOTFIX_VERSIONS[package]
 
-    url = 'http://pypi.python.org/pypi/{}/json'.format(package)
+    url = 'https://pypi.python.org/pypi/{}/json'.format(package)
     pkg_info = json.loads(http_get(url))
     HOTFIX_VERSIONS[package] = pkg_info['info']['version']
     return HOTFIX_VERSIONS[package]
