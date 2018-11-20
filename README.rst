@@ -256,6 +256,8 @@ Details:
   It defaults to ``zope``.
 - ``plone-languages`` - The short names of the languages which are loaded by Zope.
 - ``zcml-additional-fragments`` - Define additional zcml to load. See the `Additional ZCML`_ section.
+- ``instance-zcml`` - Add packages to the instances `zcml` list.
+- ``instance-early-zcml`` - Add packages on top of the instances `zcml` list.
 
 
 HAProxy / Supervisor integration
