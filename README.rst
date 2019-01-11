@@ -140,7 +140,7 @@ An example:
     setuptools = ${proposed-versions:setuptools}
 
 
-Pinning setuptools and bulidout
+Pinning setuptools and buildout
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since the Plone KGS are pinning setuptools and zc.buildout to the version from the time
