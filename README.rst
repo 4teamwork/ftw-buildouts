@@ -135,6 +135,27 @@ An example:
     instance-eggs +=
         mywebsite
 
+    [versions]
+    zc.buildout = ${proposed-versions:zc.buildout}
+    setuptools = ${proposed-versions:setuptools}
+
+
+Pinning setuptools and buildout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since the Plone KGS are pinning setuptools and zc.buildout to the version from the time
+of the release, it will get outdated over time.
+In order to use the newest versions of setuptools and zc.buildout, ``production.cfg``
+provides new pinnings. It can be used like this:
+
+.. code:: ini
+
+    [versions]
+    zc.buildout = ${proposed-versions:zc.buildout}
+    setuptools = ${proposed-versions:setuptools}
+
+
+
 
 .. _Additional ZCML:
 
@@ -780,6 +801,32 @@ Options:
   -s read stdin
   -r text is raw json
 
+
+Maintaining ftw-buildouts
+-------------------------
+
+Updating deployment version pinnings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``production.cfg`` provides version pinnings for the deployment related eggs,
+such as buildout recipes and extensions.
+From time to time we want to update the production version pinnings to the newest versions.
+In the directory ``production-versions-buildout`` there is a buildout which helps updating
+to the newest version.
+
+Usage:
+
+.. code:: sh
+
+    $ cd production-versions-buildout
+    $ python2.7 bootstrap.py
+    $ bin/buildout
+    $ bin/checkversions
+
+Then manually update the ``[proposed-versions]`` in ``../production.cfg`` according to
+the versions proposed by ``bin/checkversions``.
+
+Finally run ``bin/buildout`` again to verify the versions constraints.
 
 
 .. _coverage: https://pypi.python.org/pypi/coverage

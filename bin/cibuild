@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+set -e pipefail
+cd "$(dirname "$0")/../production-versions-buildout"
+
+$PYTHON27 bootstrap.py
+./bin/buildout buildout:allow-picked-versions=false
+echo $?
