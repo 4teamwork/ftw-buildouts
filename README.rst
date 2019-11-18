@@ -208,6 +208,8 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10532, "bin/tika-server", "Tika JAXRS Server"
   10533, "bin/redis", "Redis instance"
   10550, "bin/haproxy", "Haproxy (reserved, not installation yet)"
+  10581, "Monitor for instance1", "ftw.monitor TCP socket for health checks"
+  "...", "Monitor for instance...", "..."
   10599, "bin/supervisord", "Supervisor daemon"
   8800, "HaProxy", "HaProxy status page (Server-wide)"
   8801, "HaProxy", "HaProxy stats socket (Server-wide)"
@@ -727,6 +729,39 @@ If you want to add more urls to check, follow the instructions in the
 
 The ``warmup-configuration:urls`` and ``warmup-configuration:url-sections`` options
 will be included in the generated warmup configuration file.
+
+
+One thread per Zope instance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For production buildouts, it may be desirable to run Zope instances with one
+ZServer thread per instance in order to get more predictable memory usage
+and load balancing.
+
+In order to run instances with one single thread, the ``single-thread.cfg``
+can be used:
+
+.. code:: ini
+
+    [buildout]
+    extends =
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/production.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/zeoclients/4.cfg
+        https://raw.githubusercontent.com/4teamwork/ftw-buildouts/master/single-thread.cfg
+
+This buildout *must* be extended after ``production.cfg`` and, if present,
+``zeoclients/n.cfg`` and ``warmup.cfg``. It will:
+
+- Set ``zserver-threads`` to ``1`` for each Zope instance
+- Include ``ftw.monitor``
+- Remove the ``HttpOk`` plugins from supervisor
+- Remove ``collective.warmup`` (if present)
+
+Once this buildout is used, the HAProxy health check needs to be switched
+to a TCP health check to the ``ftw.monitor`` port (instead of a HTTP health
+check to the instance port). See the
+`corresponding section in the ftw.monitor README <https://github.com/4teamwork/ftw.monitor#haproxy-example>`_
+for an example HAProxy configuration.
 
 
 Chameleon
