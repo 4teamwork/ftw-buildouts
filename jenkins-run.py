@@ -141,7 +141,7 @@ class Main(object):
         return 'bin/buildout -n -t %i' % timeout
 
     def run_tests(self):
-        return runcmd('bin/test-jenkins')
+        return runcmd(os.environ.get('JENKINS_RUN_TEST_COMMAND', 'bin/test-jenkins'))
 
     def get_python_path(self):
         buildout = BuildoutConfigReader(self.configfile).get_config()
