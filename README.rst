@@ -252,6 +252,9 @@ Here is a full example, below is the detail explanation:
         <include package="my.package" file="meta.zcml" />
         <myPackageSecurity token="123123" />
 
+    [instance4]
+    supervisor-autostart = false
+
 
 These are the most common configuration settings.
 You can also override any options in the sections of the parts.
@@ -281,6 +284,7 @@ Details:
 - ``zcml-additional-fragments`` - Define additional zcml to load. See the `Additional ZCML`_ section.
 - ``instance-zcml`` - Add packages to the instances `zcml` list.
 - ``instance-early-zcml`` - Add packages on top of the instances `zcml` list.
+- ``supervisor-autostart`` - by default, all instances except instance0 will be automatically started in supervisor. By setting ``supervisor-autostart`` to ``false`` for a specific ``[instanceX]`` section, this can be overridden.
 
 
 HAProxy / Supervisor integration
