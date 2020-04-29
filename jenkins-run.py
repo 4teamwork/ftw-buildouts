@@ -28,7 +28,7 @@ class Main(object):
             self.configfile = args[0]
 
         else:
-            print 'Usage: jenkins-run.py BUILDOUT-CONFIG-FILE'
+            print('Usage: jenkins-run.py BUILDOUT-CONFIG-FILE')
             sys.exit(0)
 
         self.buildout_retries = 5
@@ -210,7 +210,7 @@ class BuildoutConfigReader(object):
     def _download_file(self, url):
         """ Download file from *url*, store it in a tempfile and return its path
         """
-        print '  download', url
+        print(f"  download ${url}")
         if self._temporary_downloaded is None:
             # we need to keep a reference to the tempfile, otherwise it will be deleted
             # imidiately
@@ -300,7 +300,7 @@ class HTTPRealmFinder:
         return realm
 
     def prt(self):
-        print self.get()
+        print(self.get())
 
 
 class ExtendsCache(object):
@@ -350,8 +350,8 @@ class ExtendsCache(object):
 def runcmd(command, teefile=None):
     """Execute a command and return the actual exit code.
     """
-    print ''
-    print '+ %s' % command
+    print('')
+    print(f"+ ${command}")
     sys.stdout.flush()
 
     if teefile:
@@ -383,14 +383,11 @@ def runcmd_with_retries(command, rerun_condition, retries=5, sleep=30):
             return True
 
         elif not is_last and rerun_condition(errors):
-            print 'Attempt %i of "%s" failed. Retrying after %s seconds.' % (
-                attempt, command, sleep)
-            print '\n'
+            print(f"Attempt ${attempt} of \"${command}\" failed. Retrying after ${sleep} seconds."
             time.sleep(sleep)
 
         else:
-            print 'Attempt %i of "%s" failed.' % (attempt, command)
-            print '\n'
+            print(f"Attempt ${attempt} of \"${command}\" failed.")
             return False
 
     assert exitcode != 0
@@ -398,7 +395,7 @@ def runcmd_with_retries(command, rerun_condition, retries=5, sleep=30):
 
 
 def error(msg, exit=1):
-    print 'ERROR: %s' % msg
+    print(f"ERROR: ${msg}")
     if exit != 0:
         sys.exit(exit)
 
