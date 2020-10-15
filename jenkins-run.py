@@ -73,7 +73,7 @@ class Main(object):
 
         else:
             # we use a regular python to bootstrap
-            cmd = '%s bootstrap.py' % python_path
+            cmd = '%s bootstrap.py --setuptools-version 44.1.1' % python_path
 
         runcmd_with_retries(
             cmd,
