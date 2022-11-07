@@ -3,6 +3,6 @@
 set -e pipefail
 cd "$(dirname "$0")/../production-versions-buildout"
 
-$PYTHON27 bootstrap.py --setuptools-version 44.1.1
+$PYTHON27 bootstrap.py --setuptools-version 44.1.1 --buildout-version 2.13.8
 ./bin/buildout buildout:allow-picked-versions=false
 echo $?
