@@ -75,10 +75,15 @@ class Main(object):
             # we use a regular python to bootstrap
             cmd = '%s bootstrap.py --setuptools-version 44.1.1' % python_path
 
-            # If bootstrap is run with Python2.7, we need to restrict the
-            # buildout version to <3
-            if 'python2.7' in python_path:
-                cmd += ' --buildout-version 2.13.8'
+            # Use a known good version of buildout to bootstrap:
+            #
+            # - With Python 2.7, buildout >= 3.x doesn't work anymore because
+            #   it dropped Python 2.7 compatibility.
+            # - With Python 3.x, buildout >= 3.x stopped working at some point
+            #   because of an error during bootstrap:
+            #   pkg_resources.DistributionNotFound: The 'wheel' distribution
+            #   was not found and is required by zc.buildout
+            cmd += ' --buildout-version 2.13.8'
 
         runcmd_with_retries(
             cmd,
