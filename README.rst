@@ -207,6 +207,7 @@ For example if we use ``deployment-number = 05`` the ports would be:
   10530, "bin/solr-instance", "Solr instance"
   10532, "bin/tika-server", "Tika JAXRS Server"
   10533, "bin/redis", "Redis instance"
+  10534, "gever-ui", "Frontend for Gever deployments"
   10550, "bin/haproxy", "Haproxy (reserved, not installation yet)"
   10581, "Monitor for instance1", "ftw.monitor TCP socket for health checks"
   "...", "Monitor for instance...", "..."
